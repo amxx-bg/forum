@@ -1,0 +1,260 @@
+{% if nested %} {{ fireHook('view.header.start') }}
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=""> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8" lang=""> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9" lang=""> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="{{ trans('lang_identifier') }}"> <!--<![endif]-->
+<html lang="{{ trans('lang_identifier') }}">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1">
+    {% if is_indexed %}
+    <meta name="robots" content="noindex, follow">
+    {% endif %}
+
+    <title>{{ pageTitle }}</title>
+    <link rel="shortcut icon" href="{{ urlBase() }}/style/img/favicon.ico" />
+    <!-- Theme -->
+    <link rel="stylesheet" type="text/css" href="{{ urlBase() }}/style/themes/{{ style }}/assets/css/style.css">
+    <link rel="stylesheet" type="text/css" href="{{ urlBase() }}/style/themes/{{ style }}/assets/css/cs-skin-elastic.css">
+
+    <!-- Third Party --> 
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/normalize.css@8.0.0/normalize.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/lykmapipo/themify-icons@0.1.2/css/themify-icons.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pixeden-stroke-7-icon@1.2.3/pe-icon-7-stroke/dist/pe-icon-7-stroke.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.2.0/css/flag-icon.min.css">
+    <!-- <script type="text/javascript" src="https://cdn.jsdelivr.net/html5shiv/3.7.3/html5shiv.min.js"></script> -->
+    <link href="https://cdn.jsdelivr.net/npm/chartist@0.11.0/dist/chartist.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/jqvmap@1.5.1/dist/jqvmap.min.css" rel="stylesheet">
+
+    <link href="https://cdn.jsdelivr.net/npm/weathericons@2.1.0/css/weather-icons.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/fullcalendar@3.9.0/dist/fullcalendar.min.css" rel="stylesheet" />
+
+    <!-- /Third Party -->
+
+{% for type, items in assets if type != 'js' %}
+
+    <!-- {{ type|capitalize }} -->
+    {% for item in items %}
+        {% if item.params.type == 'text/javascript' %}
+<script {% for key, value in item.params %}{{ key }}={{ value }} {% endfor %}src="{{ urlBase() }}/{{ item.file }}" /></script>
+        {% else %}assets/
+<link {% for key, value in item.params %}{{ key }}={{ value }} {% endfor %} href="{{ urlBase() }}/{{ item.file }}">
+        {% endif %}
+    {% endfor %}
+{% endfor %}
+
+{% if admin_console %}
+{{ admStyle|raw }}
+{% endif %}
+
+{% if required_fields is not empty %}
+    <!-- Output JavaScript to validate form (make sure required fields are filled out) -->
+    <script type="text/javascript">
+        /* <![CDATA[ */
+    function process_form(the_form)
+    {
+        var required_fields = {
+            {{ required_fields|join(', ') }}
+        };
+
+        if (document.all || document.getElementById)
+        {
+            for (var i = 0; i < the_form.length; ++i)
+            {
+                var elem = the_form.elements[i];
+                if (elem.name && required_fields[elem.name] && !elem.value && elem.type && (/^(?:text(?:area)?|password|file)$/i.test(elem.type)))
+                {
+                    alert('"' + required_fields[elem.name] + '" {{ trans('required field') }}');
+                    elem.focus();
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+/* ]]> */
+</script>
+
+{% endif %}
+
+{% if page_head is not empty %}
+{{ page_head|join("\n") }}
+{% endif %}
+
+{{ fireHook('view.header.before.head.tag') }}
+
+<body>
+     <!-- Left Panel -->
+    <aside id="left-panel" class="left-panel">
+        <nav class="navbar navbar-expand-sm navbar-default">
+            <div id="main-menu" class="main-menu collapse navbar-collapse">
+                <ul class="nav navbar-nav">
+                     <!-- navlinks -->
+                        {% for row in navlinks %}
+                            {% if row is iterable %}
+                                <li id="{{ row.id }}" class="menu-item" {{ row.active|raw }}><a href="{{ row.href }}"><i class="menu-icon fa fa-cogs"></i>{{ row.text }}</a></li>
+                            {% else %}
+                                {{ row|raw }}
+                            {% endif %}
+                        {% endfor %}
+                    <!-- /navlinks -->
+                </ul>
+            </div><!-- /.navbar-collapse -->
+        </nav>
+    </aside>
+    <!-- /#left-panel -->
+    <!-- Right Panel -->
+    <div id="right-panel" class="right-panel">
+        <!-- Header-->
+        <header id="header" class="header">
+            <div class="top-left">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="./"><h3>{{ settings('o_board_title') }}</h3></a>
+                    <a class="navbar-brand hidden" href="./"><h3>{{ settings('o_board_title') }}</h3></a>
+                    <a id="menuToggle" class="menutoggle"><i class="fa fa-bars"></i></a>
+                </div>
+            </div>
+            <div class="top-right">
+                <div class="header-menu">
+                    <div class="header-left">
+                        <button class="search-trigger"><i class="fa fa-search"></i></button>
+                        <div class="form-inline">
+                             <form method="get" action="{{ pathFor('search') }}" class="nav-search search-form">
+                                <input type="hidden" name="action" value="search">
+                                <input class="form-control mr-sm-2" type="text" name="keywords" placeholder="{{ trans('Search') }}" aria-label="Search">
+                                <button class="search-close" type="submit"><i class="fa fa-close"></i></button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <!-- /#header -->
+        <!-- Content -->
+        <div class="content">
+            <!-- Animated -->
+            <div class="animated fadeIn">
+               {{ fireHook('view.header.end') }}
+
+            {% block content %}{% endblock content %}
+            </div>
+            <!-- .animated -->
+        </div>
+        <!-- /.content -->
+        <!-- /# Right Panel -->
+
+        <div class="clearfix"></div>
+
+        <!-- Footer -->
+        <footer class="site-footer">
+            <div class="footer-inner bg-white">
+                <div class="row">
+                    <div class="col-sm-6">
+                        {% if settings('o_quickjump') == '1' and quickjump is not empty %}
+                            <div class="conl">
+                                <form id="qjump" method="get" action="">
+                                    <div>
+                                        <label><span>Jump to<br /></span></label>
+                                                <select name="id" onchange="window.location=(this.options[this.selectedIndex].value)">
+                                                    {% for cat_id, cat_data in quickjump["#{ userGet('g_id') }"] %}
+                                                        <optgroup label="{{ cat_data.cat_name }}">
+                                                            {% for forum in cat_data.cat_forums %}
+                                                                <option value="{{ pathFor('Forum', {'id': "#{ forum.forum_id }", 'name': "#{ slug(forum.forum_name) }"}) }}"{{ fid == 2 ? ' selected="selected"' : '' }}>{{ forum.forum_name }}</option>
+                                                            {% endfor %}
+
+                                                        </optgroup>
+                                                    {% endfor %}
+                                                </select>
+                                        </div>
+                                </form>
+                            </div>
+                        {% endif %}
+                    </div>
+                    <div class="col-sm-6 text-right">
+                        {{ trans(
+                            ['Powered by',
+                    '<a href="https://amxx-bg.info">AMXXBG</a>'
+                    ~"#{ settings('o_show_version') == '1' ? settings('o_cur_version') : '' }"
+                    ]) }}
+                    </div>
+                </div>
+            </div>
+        </footer>
+        <!-- /.site-footer -->
+
+        </div>
+    <!-- /#right-panel -->
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@2.2.4/dist/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.4/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery-match-height@0.7.2/dist/jquery.matchHeight.min.js"></script>
+    <script src="{{ urlBase() }}/style/themes/{{ style }}/assets/js/main.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/jquery.flot@0.8.3/jquery.flot.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flot-pie@1.0.0/src/jquery.flot.pie.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flot-spline@0.0.1/js/jquery.flot.spline.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/moment.min.js"></script>
+
+
+{# Display debug info (if enabled/defined) #}
+{% if exec_info is not empty %}
+<p id="debugtime">[
+    {{ trans(['Querytime', exec_info.exec_time|round(6), exec_info.nb_queries]) }} -
+    {{ trans(['Memory usage', exec_info.mem_usage]) }}
+    {{ trans(['Peak usage', exec_info.mem_peak_usage]) }}
+    ]</p>
+{% endif %}
+{% if queries_info is not empty %}
+<div id="debug" class="blocktable">
+    <h2><span>{{ trans('Debug table') }}</span></h2>
+    <div class="box">
+        <div class="inbox">
+            <table>
+                <thead>
+                <tr>
+                    <th class="tcl" scope="col">{{ trans('Query times') }}</th>
+                    <th class="tcr" scope="col">{{ trans('Query') }}</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for time, sql in queries_info.raw %}
+                    <tr>
+                        <td class="tcl">{{ time|round(8) }}</td>
+                        <td class="tcr">{{ sql }}</td>
+                    </tr>
+                {% endfor %}
+                <tr>
+                    <td class="tcl" colspan="2">{{ trans(['Total query time', queries_info.total_time|round(7)]) }} s</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endif %}
+</section>
+
+<!-- JSRAW -->
+<script>
+    var baseUrl = '{{ urlBase() }}',
+        phpVars = {{ jsVars|json_encode()|raw }};
+    {{ jsraw|raw }}
+</script>
+<!-- JS -->
+{% for script in assets.js %}
+<script {% for key, value in script.params %}{{ key }}="{{ value }}"{% endfor %} src="{{ urlBase() }}/{{ script.file }}" /></script>
+{% endfor %}
+{{ fireHook('view.footer.before.html.tag') }}
+</body>
+</html>
+{{ fireHook('view.footer.end') }}
+{% endif %}

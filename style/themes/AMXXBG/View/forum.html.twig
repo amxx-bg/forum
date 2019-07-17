@@ -1,0 +1,61 @@
+{% extends '@forum/layout.html.twig' %}
+
+{% block content %}
+    <p class="pagelink conl">{{ paging_links|raw }}</p>
+    {{ post_link|raw }}
+
+    {{ fireHook('view.forum.start') }}
+    <div class="row">
+        <div class="col-lg-12 idx{{ cat.0.cid }}">
+            <div class="card">
+                <div class="card-header">
+                    <strong class="card-title">{{ cur_forum.forum_name }}</strong>
+                </div>
+                <div class="table-stats order-table ov-h">
+                    <table class="table ">
+                        <thead>
+                            <tr>
+                                <th scope="col">{{ trans('Topic') }}</th>
+                                <th scope="col">{{ trans('Replies') }}</th>
+                                <th scope="col">{{ trans('Views') }}</th>
+                                <th scope="col">{{ trans('Last post') }}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for topic in forum_data %}
+                            <tr class="{{ topic.item_status }}">
+                                <td class="tcl">
+                                    <div class="tclcon">
+                                        <div>
+                                            {{ topic.subject_formatted|raw }}
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="tc2">{{ topic.moved_to is null ? formatNumber(topic.num_replies) : '-' }}</td>
+
+                                {% if settings('o_topic_views') == '1' %}
+                                <td class="tc3">{{ topic.moved_to is null ? formatNumber(topic.num_views) : '-' }}</td>
+                                {% endif %}
+
+                                <td class="tcr">{{ topic.last_post_formatted|raw }}</td>
+                            </tr>
+                            {% endfor %}
+
+                            {% if forum_data is empty %}
+                                <tr>
+                                    <td colspan="{{ settings('o_topic_views') == 1 ? 4 : 3 }}" style="text-align:center;"><strong>{{ trans('Empty forum') }}</strong></td>
+                                </tr>
+                            {% endif %}
+                        </tbody>
+                    </table>
+                </div> <!-- /.table-stats -->
+            </div>
+        </div>
+        </div> 
+    
+    {% if forum_actions is not empty %}
+        <p class="subscribelink clearb">{{ forum_actions|join(' ')|raw }}
+    {% endif %}
+
+    {{ fireHook('view.forum.end') }}
+{% endblock content %}

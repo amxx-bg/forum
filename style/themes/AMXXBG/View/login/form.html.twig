@@ -1,0 +1,45 @@
+{% extends '@forum/layout.html.twig' %}
+
+{% block content %}
+
+    {{ fireHook('view.login.form.start') }}
+
+    <div class="sufee-login d-flex align-content-center flex-wrap">
+        <div class="container">
+            <div class="login-content">
+                <div class="login-logo">
+                    <h2><span class="muted">{{ trans('Login') }}</span></h2>
+                </div>
+                <div class="login-form">
+                    <form id="login" method="post" action="{{ pathFor('login') }}" onsubmit="return process_form(this)">
+                        <input type="hidden" name="csrf_name" value="{{ csrf_name }}">
+                        <input type="hidden" name="csrf_value" value="{{ csrf_value }}">
+                        <div class="form-group">
+                            <label>{{ trans('Username') }} <span>{{ trans('Required') }}</span></label>
+                            <input type="text" name="req_username" class="form-control" placeholder="{{ trans('Username') }}">
+                        </div>
+                        <div class="form-group">
+                            <label>{{ trans('Password') }} <span>{{ trans('Required') }}</span></label>
+                            <input type="password" name="req_password" class="form-control" placeholder="{{ trans('Password') }}">
+                        </div>
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" name="save_pass"> {{ trans('Remember me') }}
+                            </label>
+                            <label class="pull-right">
+                                <a href="{{ pathFor('resetPassword') }}">{{ trans('Forgotten pass') }}</a>
+                            </label>
+
+                        </div>
+                        <button type="submit" name="login" class="btn btn-primary">{{ trans('Login') }}</button>
+                        <div class="register-link m-t-15 text-center">
+                            <p><a href="{{ pathFor('register') }}">{{ trans('Not registered') }}</a></p>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {{ fireHook('view.login.form.end') }}
+{% endblock content %}

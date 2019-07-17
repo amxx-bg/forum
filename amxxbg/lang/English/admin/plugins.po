@@ -1,0 +1,78 @@
+#
+msgid ""
+msgstr ""
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Project-Id-Version: AMXXBG\n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: AMXXBG <admin@amxxbg.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: en\n"
+"X-Generator: Poedit 1.8.4\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+
+msgid "Extension"
+msgstr "Extension"
+
+msgid "Version"
+msgstr "Version"
+
+msgid "Description"
+msgstr "Description"
+
+msgid "Active"
+msgstr "Active"
+
+msgid "Action"
+msgstr "Action"
+
+msgid "Activate"
+msgstr "Activate"
+
+msgid "Deactivate"
+msgstr "Deactivate"
+
+msgid "Install"
+msgstr "Install"
+
+msgid "Uninstall"
+msgstr "Uninstall"
+
+msgid "Uninstall warning"
+msgstr "Are you sure you want to uninstall this plugin ? All associated database content will be removed during this process !"
+
+msgid "Installed plugins"
+msgstr "Installed plugins"
+
+msgid "Author"
+msgstr "Author:"
+
+msgid "Toggle active state"
+msgstr "Toggle symbols to activate or deactivate plugins."
+
+msgid "Upload plugin"
+msgstr "Upload plugin"
+
+msgid "Upload"
+msgstr "Upload"
+
+msgid "Official plugins"
+msgstr "Official plugins"
+
+msgid "Official plugins description"
+msgstr "The following plugins are available from the AMXXBG Marketplace."
+
+msgid "Download"
+msgstr "Download"
+
+msgid "Plugin deactivated"
+msgstr "Plugin \"%s\" deactivated!"
+
+msgid "Plugin activated"
+msgstr "Plugin \"%s\" activated!"
+
+msgid "Plugin downloaded"
+msgstr "Plugin downloaded!"

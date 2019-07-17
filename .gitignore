@@ -1,0 +1,11 @@
+.idea/
+nbproject/
+.htaccess
+cache/
+/plugins/*
+!/plugins/test
+/style/img/avatars/*
+!/style/img/avatars/.gitkeep
+vendor/
+temp/
+.env

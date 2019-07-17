@@ -1,0 +1,32 @@
+{
+    "name": "amxx-bg/forum",
+    "type": "project",
+    "license": "GNU General Public Licence",
+    "description": "Simple forum package.",
+    "keywords": ["forum", "simple", "amxx-bg"],
+    "homepage": "https://github.com/amxx-bg/",
+    "authors": [{
+        "name": "Evil",
+        "role": "Developer"
+    }
+    ],
+    "autoload": {
+        "psr-4": {
+            "AMXXBG\\Plugins\\": "plugins/",
+            "AMXXBG\\": "amxxbg/"
+        }
+    },
+    "require": {
+        "php": ">=5.5",
+        "slim/slim": "3.*",
+        "statical/statical": "^1.1",
+        "firebase/php-jwt": "^3.0",
+        "vierbergenlars/php-semver": "^3.0",
+        "slim/flash": "^0.1.0",
+        "gettext/gettext": "^4.2",
+        "s9e/text-formatter": "^0.9",
+        "rb28dett/php-utf-8": "dev-master",
+        "twig/twig": "2.*",
+        "vlucas/phpdotenv": "^3.3"
+    }
+}

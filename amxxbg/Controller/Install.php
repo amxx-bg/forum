@@ -1,0 +1,391 @@
+<?php
+
+/**
+ * Copyright (C) 2019 AMXXBG
+ * License: http://www.gnu.org/licenses/gpl.html GPL version 2 or higher
+ */
+
+namespace AMXXBG\Controller;
+
+use Dotenv\Dotenv;
+use AMXXBG\Core\Interfaces\Cache;
+use AMXXBG\Core\Interfaces\Container;
+use AMXXBG\Core\Interfaces\ForumEnv;
+use AMXXBG\Core\Interfaces\Hooks;
+use AMXXBG\Core\Interfaces\Input;
+use AMXXBG\Core\Interfaces\Lang;
+use AMXXBG\Core\Interfaces\Perms;
+use AMXXBG\Core\Interfaces\Prefs;
+use AMXXBG\Core\Interfaces\Request;
+use AMXXBG\Core\Interfaces\Router;
+use AMXXBG\Core\Interfaces\View;
+use AMXXBG\Core\Lister;
+use AMXXBG\Core\Random;
+use AMXXBG\Core\Url;
+use AMXXBG\Core\Utils;
+use AMXXBG\Middleware\Core;
+
+class Install
+{
+    protected $supportedDbs = ['mysql' => 'MySQL',
+        'pgsql' => 'PostgreSQL',
+        'sqlite' => 'SQLite',
+        'sqlite3' => 'SQLite3',
+    ];
+    protected $availableLangs;
+    protected $optionalFields = ['DB_PASS', 'DB_PREFIX'];
+    protected $installLang = 'English';
+    protected $defaultStyle = 'AMXXBG';
+    protected $configKeys = ['DB_TYPE', 'DB_HOST', 'DB_NAME', 'DB_USER', 'DB_PASS', 'DB_PREFIX'];
+    protected $errors = [];
+
+    public function __construct()
+    {
+        $this->model = new \AMXXBG\Model\Install();
+        $this->availableLangs = Lister::getLangs();
+        Container::set('user', null);
+        View::setStyle('AMXXBG');
+        Lang::construct();
+    }
+
+    public function run()
+    {
+        Cache::flush();
+        Hooks::fire('controller.install.run_install');
+
+        // First form has been submitted to change default language
+        if (Input::post('choose_lang')) {
+            if (in_array(Utils::trim(Input::post('install_lang')), $this->availableLangs)) {
+                $this->installLang = Input::post('install_lang');
+            }
+        }
+
+        $csrf = new \AMXXBG\Middleware\Csrf();
+        $csrf->generateNewToken(Container::get('request'));
+
+        Lang::load('install', 'AMXXBG', false, $this->installLang);
+
+        // Second form has been submitted to start install
+        if (Request::isPost() && !Input::post('choose_lang')) {
+            $data = array_map(function ($item) {
+                return Utils::escape(Utils::trim($item));
+            }, Input::post('install'));
+
+            // VALIDATION
+            // Make sure base_url doesn't end with a slash
+            if (substr($data['base_url'], -1) == '/') {
+                $data['base_url'] = substr($data['base_url'], 0, -1);
+            }
+
+            // Validate username and passwords
+            if (Utils::strlen($data['username']) < 2) {
+                $this->errors[] = __('Username 1');
+            } elseif (Utils::strlen($data['username']) > 25) { // This usually doesn't happen since the form element only accepts 25 characters
+                $this->errors[] = __('Username 2');
+            } elseif (!strcasecmp($data['username'], 'Guest')) {
+                $this->errors[] = __('Username 3');
+            } elseif (preg_match('%[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}%', $data['username']) || preg_match('%((([0-9A-Fa-f]{1,4}:){7}[0-9A-Fa-f]{1,4})|(([0-9A-Fa-f]{1,4}:){6}:[0-9A-Fa-f]{1,4})|(([0-9A-Fa-f]{1,4}:){5}:([0-9A-Fa-f]{1,4}:)?[0-9A-Fa-f]{1,4})|(([0-9A-Fa-f]{1,4}:){4}:([0-9A-Fa-f]{1,4}:){0,2}[0-9A-Fa-f]{1,4})|(([0-9A-Fa-f]{1,4}:){3}:([0-9A-Fa-f]{1,4}:){0,3}[0-9A-Fa-f]{1,4})|(([0-9A-Fa-f]{1,4}:){2}:([0-9A-Fa-f]{1,4}:){0,4}[0-9A-Fa-f]{1,4})|(([0-9A-Fa-f]{1,4}:){6}((\b((25[0-5])|(1\d{2})|(2[0-4]\d)|(\d{1,2}))\b)\.){3}(\b((25[0-5])|(1\d{2})|(2[0-4]\d)|(\d{1,2}))\b))|(([0-9A-Fa-f]{1,4}:){0,5}:((\b((25[0-5])|(1\d{2})|(2[0-4]\d)|(\d{1,2}))\b)\.){3}(\b((25[0-5])|(1\d{2})|(2[0-4]\d)|(\d{1,2}))\b))|(::([0-9A-Fa-f]{1,4}:){0,5}((\b((25[0-5])|(1\d{2})|(2[0-4]\d)|(\d{1,2}))\b)\.){3}(\b((25[0-5])|(1\d{2})|(2[0-4]\d)|(\d{1,2}))\b))|([0-9A-Fa-f]{1,4}::([0-9A-Fa-f]{1,4}:){0,5}[0-9A-Fa-f]{1,4})|(::([0-9A-Fa-f]{1,4}:){0,6}[0-9A-Fa-f]{1,4})|(([0-9A-Fa-f]{1,4}:){1,7}:))%', $data['username'])) {
+                $this->errors[] = __('Username 4');
+            } elseif ((strpos($data['username'], '[') !== false || strpos($data['username'], ']') !== false) && strpos($data['username'], '\'') !== false && strpos($data['username'], '"') !== false) {
+                $this->errors[] = __('Username 5');
+            } elseif (preg_match('%(?:\[/?(?:b|u|i|h|colou?r|quote|code|img|url|email|list)\]|\[(?:code|quote|list)=)%i', $data['username'])) {
+                $this->errors[] = __('Username 6');
+            }
+
+            if (Utils::strlen($data['password']) < 6) {
+                $this->errors[] = __('Short password');
+            } elseif ($data['password'] != $data['password_conf']) {
+                $this->errors[] = __('Passwords not match');
+            }
+
+            // Validate email
+            if (!filter_var($data['email'], FILTER_VALIDATE_EMAIL)) {
+                $this->errors[] = __('Wrong email');
+            }
+
+            // Validate language
+            if (!in_array($data['language'], Lister::getLangs())) {
+                $this->errors[] = __('Error default language');
+            }
+
+            // Check if the cache directory is writable
+            if (!is_writable(ForumEnv::get('FORUM_CACHE_DIR'))) {
+                $this->errors[] = sprintf(__('Alert cache'), ForumEnv::get('FORUM_CACHE_DIR'));
+            }
+
+            // Check if default avatar directory is writable
+            if (!is_writable(ForumEnv::get('AMXXBG_ROOT').'style/img/avatars/')) {
+                $this->errors[] = sprintf(__('Alert avatar'), ForumEnv::get('AMXXBG_ROOT').'style/img/avatars/');
+            }
+
+            // Validate DB_PREFIX if existing
+            if (!empty($data['DB_PREFIX']) && ((strlen($data['DB_PREFIX']) > 0 && (!preg_match('%^[a-zA-Z_][a-zA-Z0-9_]*$%', $data['DB_PREFIX']) || strlen($data['DB_PREFIX']) > 40)))) {
+                $this->errors[] = sprintf(__('Table prefix error'), $data['DB_PREFIX']);
+            }
+
+            // End validation and check errors
+            if (!empty($this->errors)) {
+                return View::setPageInfo([
+                    'languages' => $this->availableLangs,
+                    'supported_dbs' => $this->supportedDbs,
+                    'data' => $data,
+                    'errors' => $this->errors,
+                ])->addTemplate('@forum/install')->display(false);
+            } else {
+                $data['style'] = $this->defaultStyle;
+                $data['avatars'] = in_array(strtolower(@ini_get('file_uploads')), ['on', 'true', '1']) ? 1 : 0;
+                return $this->createConfig($data);
+            }
+        } else {
+            $baseUrl = str_replace('index.php', '', Url::base());
+            $data = ['title' => __('My AMXXBG Forum'),
+                'description' => __('Description'),
+                'base_url' => $baseUrl,
+                'language' => $this->installLang];
+            return View::setPageInfo([
+                'languages' => $this->availableLangs,
+                'supported_dbs' => $this->supportedDbs,
+                'data' => $data,
+                'alerts' => [],
+            ])->addTemplate('@forum/install')->display(false);
+        }
+    }
+
+    public function createConfig(array $data)
+    {
+        Hooks::fire('controller.install.create_config');
+
+        // Generate config ...
+        $config = [];
+        foreach ($data as $key => $value) {
+            $key = strtoupper($key);
+            if (in_array($key, $this->configKeys)) {
+                $config[$key] = $value;
+            }
+        }
+
+        $config = array_merge($config, [
+            'COOKIE_NAME' => mb_strtolower(ForumEnv::get('FORUM_NAME')).'_cookie_'.Random::key(7, false, true),
+            'JWT_TOKEN' => base64_encode(Random::secureRandomBytes(64)),
+            'JWT_ALGORITHM' => 'HS512'
+        ]);
+
+        // ... And write it on disk
+        if ($this->writeConfig($config)) {
+            return $this->createDb($data);
+        } else {
+            // TODO: Translate
+            return Router::redirect(Router::pathFor('install'), ['error', 'Error while writing config file']);
+        }
+    }
+
+    public function createDb(array $data)
+    {
+        Hooks::fire('controller.install.create_db');
+        $root = realpath(dirname(__FILE__).'/../../').'/';
+        try {
+            $dotenv = Dotenv::create($root);
+            $dotenv->load();
+        } catch (\Dotenv\Exception\InvalidPathException $e) {}
+
+        $forumEnv = Core::loadDefaultForumEnv();
+
+        Container::set('forum_env', $forumEnv);
+
+        // Init DB
+        Core::initDb();
+        // Load appropriate language
+        Lang::load('install', 'amxxbg', false, $data['language']);
+
+        // Create tables
+        foreach ($this->model->getDatabaseScheme() as $table => $sql) {
+            if (!$this->model->createTable(ForumEnv::get('DB_PREFIX').$table, $sql)) {
+                // Error handling
+                $this->errors[] = 'A problem was encountered while creating table '.$table;
+            }
+        }
+
+        // Populate group table with default values
+        foreach ($this->model->loadDefaultGroups() as $groupName => $groupData) {
+            $this->model->addData('groups', $groupData);
+        }
+
+        // Init permissions
+        // TODO: Reuse groups inheritance later ?
+        // Perms::addParent(4, array(3));
+        // Perms::addParent(2, array(3,4));
+        // Perms::addParent(1, array(2,3,4));
+        // Perms::allowGroup(3, array('board.read', 'users.view', 'search.topics', 'search.users'));
+        // Perms::allowGroup(4, array('topic.reply', 'topic.post', 'topic.delete', 'post.delete', 'post.edit', 'post.links', 'email.send'));
+        // Perms::allowGroup(2, array('mod.is_mod', 'mod.edit_users', 'mod.rename_users', 'mod.change_passwords', 'mod.promote_users', 'mod.ban_users', 'user.set_title'));
+
+        Perms::allowGroup(3, ['board.read', 'users.view', 'search.topics', 'search.users']);
+        Perms::allowGroup(4, ['board.read', 'users.view', 'search.topics', 'search.users',
+            'topic.reply', 'topic.post', 'topic.delete', 'post.delete', 'post.edit', 'post.links', 'email.send']);
+        Perms::allowGroup(2, ['board.read', 'users.view', 'user.set_title', 'search.topics', 'search.users',
+            'topic.reply', 'topic.post', 'topic.delete', 'post.delete', 'post.edit', 'post.links', 'email.send',
+            'mod.is_mod', 'mod.edit_users', 'mod.rename_users', 'mod.change_passwords', 'mod.promote_users', 'mod.ban_users']);
+        Perms::allowGroup(1, ['*']);
+        Cache::store('permissions', \AMXXBG\Model\Cache::getPermissions());
+        // Init preferences
+        Prefs::set([
+            'disp.topics' => 30,
+            'disp.posts' => 25,
+            'post.min_interval' => 60,
+            'search.min_interval' => 30,
+            'email.min_interval' => 60,
+            'report.min_interval' => 60,
+            'promote.min_posts' => 0,
+            'promote.next_group' => 0,
+            'timezone' => 0,
+            'dst' => 0,
+            'time_format' => 'H:i:s',
+            'date_format' => 'Y-m-d',
+            'language' => $data['language'],
+            'style' => $data['style'],
+            'show.smilies.sig' => 1,
+            'show.smilies' => 1,
+            'show.img' => 1,
+            'show.img.sig' => 1,
+            'show.avatars' => 1,
+            'show.sig' => 1,
+            'email.setting' => 1,
+            'notify_with_post' => 0,
+            'auto_notify' => 0,
+        ]);
+        Prefs::setGroup(2, [
+            'post.min_interval' => 0,
+            'search.min_interval' => 0,
+            'email.min_interval' => 0,
+            'report.min_interval' => 0
+        ]);
+        Prefs::setGroup(1, [
+            'post.min_interval' => 0,
+            'search.min_interval' => 0,
+            'email.min_interval' => 0,
+            'report.min_interval' => 0
+        ]);
+
+
+        // Populate user table with default values
+        $this->model->addData('users', $this->model->loadDefaultUser());
+        $this->model->addData('users', $this->model->loadAdminUser($data));
+        // Populate categories, forums, topics, posts
+        $this->model->addMockForum($this->model->loadMockForumData($data));
+        // Store config in DB
+        $this->model->saveConfig($this->loadDefaultConfig($data));
+        // Add smilies
+        $this->model->addSmilies($this->model->loadSmilies());
+
+        // Handle .htaccess
+        if (function_exists('apache_get_modules') && in_array('mod_rewrite', apache_get_modules())) {
+            $this->writeHtaccess();
+        }
+
+        // Redirect to homepage with success message
+        return Router::redirect(Router::pathFor('home'), ['success', __('Message')]);
+    }
+
+    public function writeConfig($array)
+    {
+        Hooks::fire('controller.install.write_config');
+
+        $text = '';
+
+        foreach ($array as $key => $value) {
+            $text .= $key.'='.$value."\n";
+        }
+
+        return file_put_contents(ForumEnv::get('FORUM_CONFIG_FILE'), $text);
+    }
+
+    public function writeHtaccess()
+    {
+        Hooks::fire('controller.install.write_htaccess');
+
+        $data = file_get_contents(ForumEnv::get('AMXXBG_ROOT').'.htaccess.dist');
+        return file_put_contents(ForumEnv::get('AMXXBG_ROOT').'.htaccess', $data);
+    }
+
+    public function loadDefaultConfig(array $data)
+    {
+        Hooks::fire('controller.install.load_default_config');
+
+        return [
+            'o_cur_version'                => ForumEnv::get('FORUM_VERSION'),
+            'o_database_revision'        => ForumEnv::get('FORUM_DB_REVISION'),
+            'o_searchindex_revision'    => ForumEnv::get('FORUM_SI_REVISION'),
+            'o_parser_revision'            => ForumEnv::get('FORUM_PARSER_REVISION'),
+            'o_board_title'                => $data['title'],
+            'o_board_desc'                => $data['description'],
+            // 'o_default_timezone'        => 0,
+            // 'o_time_format'                => 'H:i:s',
+            // 'o_date_format'                => 'Y-m-d',
+            'o_timeout_visit'            => 1800,
+            'o_timeout_online'            => 300,
+            'o_show_version'            => 0,
+            'o_show_user_info'            => 1,
+            'o_show_post_count'            => 1,
+            'o_signatures'                => 1,
+            'o_smilies'                    => 1,
+            'o_smilies_sig'                => 1,
+            'o_make_links'                => 1,
+            // 'o_default_lang'            => $data['default_lang'],
+            // 'o_default_style'            => $data['default_style'],
+            'o_default_user_group'        => 4,
+            'o_topic_review'            => 15,
+            // 'o_disp_topics_default'        => 30,
+            // 'o_disp_posts_default'        => 25,
+            'o_indent_num_spaces'        => 4,
+            'o_quote_depth'                => 3,
+            'o_quickpost'                => 1,
+            'o_users_online'            => 1,
+            'o_censoring'                => 0,
+            'o_show_dot'                => 0,
+            'o_topic_views'                => 1,
+            'o_quickjump'                => 1,
+            'o_gzip'                    => 0,
+            'o_additional_navlinks'        => '',
+            'o_report_method'            => 0,
+            'o_regs_report'                => 0,
+            // 'o_default_email_setting'    => 1,
+            'o_mailing_list'            => $data['email'],
+            'o_avatars'                    => $data['avatars'],
+            'o_avatars_dir'                => 'style/img/avatars',
+            'o_avatars_width'            => 60,
+            'o_avatars_height'            => 60,
+            'o_avatars_size'            => 10240,
+            'o_search_all_forums'        => 1,
+            'o_base_url'                => $data['base_url'],
+            'o_admin_email'                => $data['email'],
+            'o_webmaster_email'            => $data['email'],
+            'o_forum_subscriptions'        => 1,
+            'o_topic_subscriptions'        => 1,
+            'o_smtp_host'                => null,
+            'o_smtp_user'                => null,
+            'o_smtp_pass'                => null,
+            'o_smtp_ssl'                => 0,
+            'o_regs_allow'                => 1,
+            'o_regs_verify'                => 0,
+            'o_announcement'            => 0,
+            'o_announcement_message'    => __('Announcement'),
+            'o_rules'                    => 0,
+            'o_rules_message'            => __('Rules'),
+            'o_maintenance'                => 0,
+            'o_maintenance_message'        => __('Maintenance message'),
+            // 'o_default_dst'                => 0,
+            'p_message_bbcode'            => 1,
+            'p_message_img_tag'            => 1,
+            'p_message_all_caps'        => 1,
+            'p_subject_all_caps'        => 1,
+            'p_sig_all_caps'            => 1,
+            'p_sig_bbcode'                => 1,
+            'p_sig_img_tag'                => 0,
+            'p_sig_length'                => 400,
+            'p_sig_lines'                => 4,
+            'p_allow_banned_email'        => 1,
+            'p_allow_dupe_email'        => 0,
+            'p_force_guest_email'        => 1
+        ];
+    }
+}
