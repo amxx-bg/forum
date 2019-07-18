@@ -1,37 +1,16 @@
 {{ fireHook('view.profile.menu.start') }}
 
-<div id="profile" class="block2col">
-    <div class="blockmenu">
-        <h2><span>{{ trans('Profile menu') }}</span></h2>
-        <div class="box">
-            <div class="inbox">
-                <ul>
-                    <li{{ page == 'essentials' ? ' class="isactive"' : '' }}>
-                        <a href="{{ pathFor('profileSection', {'id': "#{ id }", 'section': 'essentials'}) }}">{{ trans('Section essentials') }}</a>
-                    </li>
-                    <li{{ page == 'personal' ? ' class="isactive"' : '' }}>
-                        <a href="{{ pathFor('profileSection', {'id': "#{ id }", 'section': 'personal'}) }}">{{ trans('Section personal') }}</a>
-                    </li>
-        {% if settings('o_avatars') == '1' or settings('o_signatures') == '1' %}
-                    <li{{ page == 'personality' ? ' class="isactive"' : '' }}>
-                        <a href="{{ pathFor('profileSection', {'id': "#{ id }", 'section': 'personality'}) }}">{{ trans('Section personality') }}</a>
-                    </li>
-        {% endif %}
-                    <li{{ page == 'display' ? ' class="isactive"' : '' }}>
-                        <a href="{{ pathFor('profileSection', {'id': "#{ id }", 'section': 'display'}) }}">{{ trans('Section display') }}</a>
-                    </li>
-                    <li{{ page == 'privacy' ? ' class="isactive"' : '' }}>
-                        <a href="{{ pathFor('profileSection', {'id': "#{ id }", 'section': 'privacy'}) }}">{{ trans('Section privacy') }}</a>
-                    </li>
-        {% if isAdmin() or (isAdminMod() and can('mod.ban_users')) %}
-                    <li{{ page == 'admin' ? ' class="isactive"' : '' }}>
-                        <a href="{{ pathFor('profileSection', {'id': "#{ id }", 'section': 'admin'}) }}">{{ trans('Section admin') }}</a>
-                    </li>
-        {% endif %}
-
-                </ul>
-            </div>
+   <div class="row">
+     <nav class="col-lg-12 offset-lg-3">
+        <div class="nav nav-tabs" id="nav-tab">
+            <a class="nav-item nav-link {{ page == 'essentials' ? ' active' : '' }}" id="custom-nav-home-tab" href="{{ pathFor('profileSection', {'id': "#{ id }", 'section': 'essentials'}) }}">{{ trans('Section essentials') }}</a>
+            <a class="nav-item nav-link {{ page == 'personal' ? ' active' : '' }}" id="custom-nav-profile-tab" href="{{ pathFor('profileSection', {'id': "#{ id }", 'section': 'personal'}) }}">{{ trans('Section personal') }}</a>
+            <a class="nav-item nav-link {{ page == 'personality' ? ' active' : '' }}" id="custom-nav-contact-tab" href="{{ pathFor('profileSection', {'id': "#{ id }", 'section': 'personality'}) }}">{{ trans('Section personality') }}</a>
+            <a class="nav-item nav-link {{ page == 'display' ? ' active' : '' }}" id="custom-nav-contact-tab" href="{{ pathFor('profileSection', {'id': "#{ id }", 'section': 'display'}) }}">{{ trans('Section display') }}</a>
+            <a class="nav-item nav-link {{ page == 'privacy' ? ' active' : '' }}" id="custom-nav-contact-tab" href="{{ pathFor('profileSection', {'id': "#{ id }", 'section': 'privacy'}) }}">{{ trans('Section privacy') }}</a>
+            <a class="nav-item nav-link {{ page == 'admin' ? ' active' : '' }}" id="custom-nav-contact-tab" href="{{ pathFor('profileSection', {'id': "#{ id }", 'section': 'admin'}) }}">{{ trans('Section admin') }}</a>
         </div>
-    </div>
+    </nav>
+   </div>
 
-    {{ fireHook('view.profile.menu.end') }}
+{{ fireHook('view.profile.menu.end') }}

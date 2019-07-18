@@ -1113,19 +1113,19 @@ class Profile
 
         if (User::isAdminMod()) {
             if (User::isAdmin() || User::can('mod.rename_users')) {
-                $userDisp['username_field'] = '<label class="required"><strong>'.__('Username').' <span>'.__('Required').'</span></strong><br /><input type="text" name="req_username" value="'.Utils::escape($user['username']).'" size="25" maxlength="25" required /><br /></label>'."\n";
+                $userDisp['username_field'] = '<input type="text" class="form-control" name="req_username" value="'.Utils::escape($user['username']).'" size="25" maxlength="25" required /><br /></label>'."\n";
             } else {
                 $userDisp['username_field'] = '<p>'.sprintf(__('Username info'), Utils::escape($user['username'])).'</p>'."\n";
             }
 
-            $userDisp['email_field'] = '<label class="required"><strong>'.__('Email').' <span>'.__('Required').'</span></strong><br /><input type="text" name="req_email" value="'.Utils::escape($user['email']).'" size="40" maxlength="80" required /><br /></label><p><span class="email"><a href="'.Router::pathFor('email', ['id' => $id]).'">'.__('Send email').'</a></span></p>'."\n";
+            $userDisp['email_field'] = '<input type="text" class="form-control" name="req_email" value="'.Utils::escape($user['email']).'" size="40" maxlength="80" required /><br /></label><p><span class="email"><a class="btn btn-primary" href="'.Router::pathFor('email', ['id' => $id]).'">'.__('Send email').'</a></span></p>'."\n";
         } else {
             $userDisp['username_field'] = '<p>'.__('Username').': '.Utils::escape($user['username']).'</p>'."\n";
 
             if (ForumSettings::get('o_regs_verify') == '1') {
                 $userDisp['email_field'] = '<p>'.sprintf(__('Email info'), Utils::escape($user['email']).' - <a href="'.Router::pathFor('profileAction', ['id' => $id, 'action' => 'change_email']).'">'.__('Change email').'</a>').'</p>'."\n";
             } else {
-                $userDisp['email_field'] = '<label class="required"><strong>'.__('Email').' <span>'.__('Required').'</span></strong><br /><input type="text" name="req_email" value="'.$user['email'].'" size="40" maxlength="80" required /><br /></label>'."\n";
+                $userDisp['email_field'] = '<label class="required"><strong>'.__('Email').' <span>'.__('Required').'</span></strong><br /><input type="text" class="form-control" name="req_email" value="'.$user['email'].'" size="40" maxlength="80" required /><br /></label>'."\n";
             }
         }
 
@@ -1133,21 +1133,21 @@ class Profile
         $postsActions = [];
 
         if (User::isAdmin()) {
-            $userDisp['posts_field'] .= '<label>'.__('Posts').'<br /><input type="text" name="num_posts" value="'.$user['num_posts'].'" size="8" maxlength="8" /><br /></label>';
+            $userDisp['posts_field'] .= '<label>'.__('Posts').'<br /><input type="text" class="form-control" name="num_posts" value="'.$user['num_posts'].'" size="8" maxlength="8" disabled/><br /></label>';
         } elseif (ForumSettings::get('o_show_post_count') == '1' || User::isAdminMod()) {
             $postsActions[] = sprintf(__('Posts info'), Utils::forumNumberFormat($user['num_posts']));
         }
 
         if (User::can('search.topics') || User::isAdmin()) {
-            $postsActions[] = '<a href="'.Router::pathFor('search').'?action=show_user_topics&amp;user_id='.$id.'">'.__('Show topics').'</a>';
-            $postsActions[] = '<a href="'.Router::pathFor('search').'?action=show_user_posts&amp;user_id='.$id.'">'.__('Show posts').'</a>';
+            $postsActions[] = '<a class="btn btn-primary" href="'.Router::pathFor('search').'?action=show_user_topics&amp;user_id='.$id.'">'.__('Show topics').'</a>';
+            $postsActions[] = '<a class="btn btn-primary" href="'.Router::pathFor('search').'?action=show_user_posts&amp;user_id='.$id.'">'.__('Show posts').'</a>';
 
             if (ForumSettings::get('o_topic_subscriptions') == '1') {
-                $postsActions[] = '<a href="'.Router::pathFor('search').'?action=show_subscriptions&amp;user_id='.$id.'">'.__('Show subscriptions').'</a>';
+                $postsActions[] = '<a class="btn btn-primary" href="'.Router::pathFor('search').'?action=show_subscriptions&amp;user_id='.$id.'">'.__('Show subscriptions').'</a>';
             }
         }
 
-        $userDisp['posts_field'] .= (!empty($postsActions) ? '<p class="actions">'.implode(' - ', $postsActions).'</p>' : '')."\n";
+        $userDisp['posts_field'] .= (!empty($postsActions) ? '<p class="actions">'.implode(' ', $postsActions).'</p>' : '')."\n";
 
         $userDisp = Hooks::fire('model.profile.edit_essentials', $userDisp);
 

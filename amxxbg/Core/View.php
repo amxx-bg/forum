@@ -416,65 +416,73 @@ class View
 
         $navlinks[] = [
             'id' => 'navindex',
-            'active' => ($active_page == 'index') ? ' class="isactive"' : '',
+            'active' => ($active_page == 'index') ? ' active' : '',
             'href' => Router::pathFor('home'),
-            'text' => __('Index')
+            'text' => __('Index'),
+            'icon' => 'ti-home'
         ];
 
         if (User::can('board.read') && User::can('users.view')) {
             $navlinks[] = [
                 'id' => 'navuserlist',
-                'active' => ($active_page == 'userlist') ? ' class="isactive"' : '',
+                'active' => ($active_page == 'userlist') ? ' active' : '',
                 'href' => Router::pathFor('userList'),
-                'text' => __('User list')
+                'text' => __('User list'),
+                'icon' => 'ti-agenda'
             ];
         }
 
         if (ForumSettings::get('o_rules') == '1' && (!User::get()->is_guest || User::can('board.read') || ForumSettings::get('o_regs_allow') == '1')) {
             $navlinks[] = [
                 'id' => 'navrules',
-                'active' => ($active_page == 'rules') ? ' class="isactive"' : '',
+                'active' => ($active_page == 'rules') ? 'active' : '',
                 'href' => Router::pathFor('rules'),
-                'text' => __('Rules')
+                'text' => __('Rules'),
+                'icon' => 'ti-info-alt'
             ];
         }
 
         if (User::can('board.read') && User::can('search.topics')) {
             $navlinks[] = [
                 'id' => 'navsearch',
-                'active' => ($active_page == 'search') ? ' class="isactive"' : '',
+                'active' => ($active_page == 'search') ? ' active' : '',
                 'href' => Router::pathFor('search'),
-                'text' => __('Search')
+                'text' => __('Search'),
+                'icon' => 'ti-search'
             ];
         }
 
         if (User::get()->is_guest) {
             $navlinks[] = [
                 'id' => 'navregister',
-                'active' => ($active_page == 'register') ? ' class="isactive"' : '',
+                'active' => ($active_page == 'register') ? ' active' : '',
                 'href' => Router::pathFor('register'),
-                'text' => __('Register')
+                'text' => __('Register'),
+                'icon' => 'ti-link'
             ];
             $navlinks[] = [
                 'id' => 'navlogin',
-                'active' => ($active_page == 'login') ? ' class="isactive"' : '',
+                'active' => ($active_page == 'login') ? ' active' : '',
                 'href' => Router::pathFor('login'),
-                'text' => __('Login')
+                'text' => __('Login'),
+                'icon' => 'ti-plug'
             ];
         } else {
             $navlinks[] = [
                 'id' => 'navprofile',
-                'active' => ($active_page == 'profile') ? ' class="isactive"' : '',
+                'active' => ($active_page == 'profile') ? ' active' : '',
                 'href' => Router::pathFor('userProfile', ['id' => User::get()->id]),
-                'text' => __('Profile')
+                'text' => __('Profile'),
+                'icon' => 'ti-user'
             ];
 
             if (User::isAdminMod()) {
                 $navlinks[] = [
                     'id' => 'navadmin',
-                    'active' => ($active_page == 'admin') ? ' class="isactive"' : '',
+                    'active' => ($active_page == 'admin') ? ' active' : '',
                     'href' => Router::pathFor('adminIndex'),
-                    'text' => __('Admin')
+                    'text' => __('Admin'),
+                    'icon' => 'ti-ruler-pencil'
                 ];
             }
 
@@ -482,7 +490,8 @@ class View
                 'id' => 'navlogout',
                 'active' => '',
                 'href' => Router::pathFor('logout', ['token' => Random::hash(User::get()->id.Random::hash(Utils::getIp()))]),
-                'text' => __('Logout')
+                'text' => __('Logout'),
+                'icon' => 'ti-unlink'
             ];
         }
 
@@ -499,7 +508,7 @@ class View
                         $results[1][$i],
                         0,
                         ['<li id="navextra'.($i + 1).'"'.
-                        (($active_page == 'navextra'.($i + 1)) ? ' class="isactive"' : '').'>'.
+                        (($active_page == 'navextra'.($i + 1)) ? ' active' : '').'>'.
                         $results[2][$i].'</li>']
                     );
                 }

@@ -6,44 +6,37 @@
 
 {% include '@forum/profile/menu.html.twig' %}
 
-<div class="blockform">
-    <h2><span>{{ user.username }} - {{ trans('Section essentials') }}</span></h2>
-    <div class="box">
-        <form id="profile1" method="post" action="{{ pathFor('profileSection', {'id': id, 'section': 'essentials'}) }}" onsubmit="return process_form(this)">
+<div class="col-lg-12">
+    <div class="card">
+        <div class="card-header">
+            <strong>{{ user.username }} </strong> - {{ trans('Section essentials') }}
+        </div>
+        <div class="card-body card-block">
+            <form id="profile1" class="form-horizontal" method="post" action="{{ pathFor('profileSection', {'id': id, 'section': 'essentials'}) }}" onsubmit="return process_form(this)">
             <input type="hidden" name="csrf_name" value="{{ csrf_name }}">
             <input type="hidden" name="csrf_value" value="{{ csrf_value }}">
-            <div class="inform">
-                <fieldset>
-                    <legend>{{ trans('Username and pass legend') }}</legend>
-                    <div class="infldset">
+                <div class="row form-group">
+                    <div class="col col-md-3"><label for="text-input" class=" form-control-label">{{ trans('Username') }}</label></div>
+                    <div class="col-12 col-md-9">
                         <input type="hidden" name="form_sent" value="1" />
+
                         {{ user_disp.username_field|raw }}
-        {% if userGet('id') == id or isAdmin() or (isAdminMod() and can('mod.change_passwords')) %}
-                        <p class="actions">
-                            <span>
-                                <a href="{{ pathFor('profileAction', {'id': id, 'action': 'change_pass'}) }}">{{ trans('Change pass') }}</a>
-                            </span>
-                        </p>
-        {% endif %}
+
+                        {% if userGet('id') == id or isAdmin() or (isAdminMod() and can('mod.change_passwords')) %}
+                                    <a href="{{ pathFor('profileAction', {'id': id, 'action': 'change_pass'}) }}" class="btn btn-primary">{{ trans('Change pass') }}</a>
+                        {% endif %}
                     </div>
-                </fieldset>
-            </div>
-            <div class="inform">
-                <fieldset>
-                    <legend>{{ trans('Email legend') }}</legend>
-                    <div class="infldset">
+                </div>
+                <div class="row form-group">
+                    <div class="col col-md-3"><label for="email-input" class=" form-control-label">{{ trans('Email') }}</label></div>
+                    <div class="col-12 col-md-9">
                         {{ user_disp.email_field|raw }}
                     </div>
-                </fieldset>
-            </div>
-            <div class="inform">
-                <fieldset>
-                    <legend>{{ trans('Localisation legend') }}</legend>
-                    <div class="infldset">
-                        <p>{{ trans('Time zone info') }}</p>
-                        <label>{{ trans('Time zone') }}
-                        <br />
-                            <select name="form_timezone">
+                </div>
+                <div class="row form-group">
+                    <div class="col col-md-3"><label for="select" class=" form-control-label">{{ trans('Time zone') }}</label></div>
+                    <div class="col-12 col-md-9">
+                        <select name="form_timezone" id="select" class="form-control">
                             <option value="-12"{{ pref('timezone', user) == -12 ? ' selected="selected"' : ''}}>{{ trans('UTC-12:00') }}</option>
                             <option value="-11"{{ pref('timezone', user) == -11 ? ' selected="selected"' : ''}}>{{ trans('UTC-11:00') }}</option>
                             <option value="-10"{{ pref('timezone', user) == -10 ? ' selected="selected"' : ''}}>{{ trans('UTC-10:00') }}</option>
@@ -85,74 +78,78 @@
                             <option value="13"{{ pref('timezone', user) == 13 ? ' selected="selected"' : ''}}>{{ trans('UTC+13:00') }}</option>
                             <option value="14"{{ pref('timezone', user) == 14 ? ' selected="selected"' : ''}}>{{ trans('UTC+14:00') }}</option>
                         </select>
-                        <br />
-                        </label>
-                        <div class="rbox">
-                            <label>
-                                <input type="checkbox" name="form_dst" value="1"{{ pref('dst', user) == '1' ? ' checked="checked"' : ''}} />{{ trans('DST') }}<br />
-                            </label>
-                        </div>
-                        <label>{{ trans('Time format') }}
-                        <br />
-                            <select name="form_time_format">
-                {% for key, time_format in forum_time_formats %}
+
+                        <input type="checkbox" class="checkbox" name="form_dst" value="1"{{ pref('dst', user) == '1' ? ' checked="checked"' : ''}} />{{ trans('DST') }}<br />
+                    </div>
+                </div>
+
+                <div class="row form-group">
+                    <div class="col col-md-3"><label for="select" class=" form-control-label">{{ trans('Time format') }}</label></div>
+                    <div class="col-12 col-md-9">
+                        <select name="form_timezone" id="select" class="form-control">
+                            {% for key, time_format in forum_time_formats %}
                                 <option value="{{ key }}"{{ pref('time_format', user) == key ? ' selected="selected"' : '' }}>{{ formatTime(date().timestamp, false, null, time_format, true, true) }} {{ key == 0 ? trans('Default') : '' }}</option>
-                {% endfor %}
+                            {% endfor %}
                         </select>
-                        <br />
-                        </label>
-                        <label>{{ trans('Date format') }}
-                            <br />
-                            <select name="form_date_format">
-                {% for key, date_format in forum_date_formats %}
+                    </div>
+                </div>
+
+                <div class="row form-group">
+                    <div class="col col-md-3"><label for="select" class=" form-control-label">{{ trans('Date format') }}</label></div>
+                    <div class="col-12 col-md-9">
+                        <select name="form_timezone" id="select" class="form-control">
+                            {% for key, date_format in forum_date_formats %}
                                 <option value="{{ key }}"{{ pref('date_format', user) == key ? ' selected="selected"' : '' }}>{{ formatTime(date().timestamp, true, date_format, null, false, true) }}{{ key == 0 ? ' ('~trans('Default')~')' }}</option>
-                {% endfor %}
-                            </select>
-                        <br />
-                        </label>
-
-    {#// Only display the language selection box if there's more than one language available#}
-                {% if languages|length > 1 %}
-
-                        <label>{{ trans('Language') }}
-                        <br /><select name="form_language">
-                        {% for lang in languages %}
-                            <option value="{{ lang }}"{{ pref('language', user) == lang ? ' selected="selected" ' : '' }}>{{ lang }}</option>
-                        {% endfor %}
+                            {% endfor %}
                         </select>
-                        <br /></label>
+                    </div>
+                </div>
 
+                {% if languages|length > 1 %}
+                <div class="row form-group">
+                    <div class="col col-md-3"><label for="select" class=" form-control-label">{{ trans('Language') }}</label></div>
+                    <div class="col-12 col-md-9">
+                        <select name="form_timezone" id="select" class="form-control">
+                            {% for lang in languages %}
+                                <option value="{{ lang }}"{{ pref('language', user) == lang ? ' selected="selected" ' : '' }}>{{ lang }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
                 {% endif %}
 
-
-                    </div>
-                </fieldset>
-            </div>
-            <div class="inform">
-                <fieldset>
-                    <legend>{{ trans('User activity') }}</legend>
-                    <div class="infldset">
+                <div class="row form-group">
+                    <div class="col col-md-3"><label for="select" class=" form-control-label">{{ trans('User activity') }}</label></div>
+                    <div class="col-12 col-md-9">
                         {% set regIp = (isAdminMod() ? ' (<a href="' ~"#{ pathFor('usersIpShow', {}, {'ip': user.registration_ip}) }" ~'">' ~"#{ user.registration_ip }" ~'</a>)' : '' ) %}
-                        <p>{{ trans(['Registered info', formatTime(user.registered, true) ~ regIp ]) }}</p>
-                        <p>{{ trans(['Last post info', formatTime(user.last_post)]) }}</p>
-                        <p>{{ trans(['Last visit info', formatTime(user.last_visit)]) }}</p>
+                        <p class="form-control-static">{{ trans(['Registered info', formatTime(user.registered, true) ~ regIp ]) }}</p>
+                        <p class="form-control-static">{{ trans(['Last post info', formatTime(user.last_post)]) }}</p>
+                        <p class="form-control-static">{{ trans(['Last visit info', formatTime(user.last_visit)]) }}</p>
+
                         {{ user_disp.posts_field|raw }}
-                    {% if isAdminMod() %}
-                        <label>{{ trans('Admin note') }}<br />
-                        <input id="admin_note" type="text" name="admin_note" value="{{ user.admin_note }}" size="30" maxlength="30" /><br />
-                        </label>
-                    {% endif %}
                     </div>
-                </fieldset>
-            </div>
-            <p class="buttons">
-                <input type="submit" name="update" value="{{ trans('Submit') }}" />
+                </div>
+                
+                {% if isAdminMod() %}
+                    <div class="row form-group">
+                        <div class="col col-md-3"><label for="admin_note" class=" form-control-label">{{ trans('Admin note') }}</label></div>
+                        <div class="col-12 col-md-9"><textarea name="admin_note" id="admin_note" rows="9" placeholder="{{ user.admin_note }}" class="form-control"></textarea></div>
+                    </div>
+                {% endif %}
+            <small class="help-block form-text">
                 {{ trans('Instructions') }}
-            </p>
-        </form>
+            </small>
+        </div>
+        <div class="card-footer">
+            <button type="submit" class="btn btn-primary btn-sm" name="update">
+                <i class="fa fa-dot-circle-o"></i> {{  trans('Submit') }}
+            </button>
+            <button type="reset" class="btn btn-danger btn-sm">
+                <i class="fa fa-ban"></i> {{ trans('Reset') }}
+            </button>
+        </div>
+    </form>
     </div>
-</div>
-    <div class="clearer"></div>
 </div>
 
     {{ fireHook('view.profile.section_essentials.end') }}

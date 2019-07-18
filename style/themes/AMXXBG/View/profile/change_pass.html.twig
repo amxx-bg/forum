@@ -9,11 +9,11 @@
 <div class="blockform">
     <h2><span>{{ trans('Change pass') }}</span></h2>
     <div class="box">
-        <form id="change_pass" method="post" action="{{ pathFor('profileAction', {'id': id, 'action': 'change_pass'}) }}" onsubmit="return process_form(this)">
+        <form id="change_pass" class="form-horizontal" method="post" action="{{ pathFor('profileAction', {'id': id, 'action': 'change_pass'}) }}" onsubmit="return process_form(this)">
             <input type="hidden" name="csrf_name" value="{{ csrf_name }}">
             <input type="hidden" name="csrf_value" value="{{ csrf_value }}">
             <div class="inform">
-                <input type="hidden" name="form_sent" value="1" />
+                <input type="hidden" class="form-control" name="form_sent" value="1" />
                 <fieldset>
                     <legend>{{ trans('Change pass legend') }}</legend>
                     <div class="infldset">

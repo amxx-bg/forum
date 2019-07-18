@@ -134,7 +134,7 @@ class Profile
                 View::addTemplate('profile/menu.php', 5)->addTemplate('@forum/profile/section_essentials')->display();
             } elseif ($args['section'] == 'personal') {
                 if (User::can('user.set_title')) {
-                    $titleField = '<label>'.__('Title').' <em>('.__('Leave blank').')</em><br /><input type="text" name="title" value="'.Utils::escape($user['title']).'" size="30" maxlength="50" /><br /></label>'."\n";
+                    $titleField = '<input type="text" class="form-control" name="title" value="'.Utils::escape($user['title']).'" size="30" maxlength="50" />'."\n";
                 }
 
                 View::setPageInfo([
@@ -156,9 +156,9 @@ class Profile
 
                 $userAvatar = Utils::generateAvatarMarkup($args['id']);
                 if ($userAvatar) {
-                    $avatarField .= ' <span><a href="'.Router::pathFor('profileAction', ['id' => $args['id'], 'action' => 'delete_avatar']).'">'.__('Delete avatar').'</a></span>';
+                    $avatarField .= ' <span><a class="btn btn-primary" href="'.Router::pathFor('profileAction', ['id' => $args['id'], 'action' => 'delete_avatar']).'">'.__('Delete avatar').'</a></span>';
                 } else {
-                    $avatarField = '<span><a href="'.Router::pathFor('profileAction', ['id' => $args['id'], 'action' => 'upload_avatar']).'">'.__('Upload avatar').'</a></span>';
+                    $avatarField = '<span><a class="btn btn-primary" href="'.Router::pathFor('profileAction', ['id' => $args['id'], 'action' => 'upload_avatar']).'">'.__('Upload avatar').'</a></span>';
                 }
 
                 if ($user['signature'] != '') {

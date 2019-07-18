@@ -25,7 +25,7 @@
         "slim/flash": "^0.1.0",
         "gettext/gettext": "^4.2",
         "s9e/text-formatter": "^0.9",
-        "rb28dett/php-utf-8": "dev-master",
+        "rb28dett/php-utf-8": "*",
         "twig/twig": "2.*",
         "vlucas/phpdotenv": "^3.3"
     }
