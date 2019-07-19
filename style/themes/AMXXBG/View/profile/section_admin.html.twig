@@ -6,77 +6,94 @@
 
     {% include '@forum/profile/menu.html.twig' %}
 
-    <div class="blockform">
-        <h2><span>{{ user.username }} - {{ trans('Section admin') }}</span></h2>
-        <div class="box">
-            <form id="profile7" method="post" action="{{ pathFor('profileSection', {'id': id, 'section': 'admin'}) }}">
-                <input type="hidden" name="csrf_name" value="{{ csrf_name }}">
-                <input type="hidden" name="csrf_value" value="{{ csrf_value }}">
-                <div class="inform">
-                <input type="hidden" name="form_sent" value="1" />
-                    <fieldset>
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-header">
+                <strong> {{ user.username }} </strong> - {{ trans('Section admin') }}
+            </div>
+            <div class="card-body card-block">
+                <form id="profile7" method="post" action="{{ pathFor('profileSection', {'id': id, 'section': 'admin'}) }}">
+                    <input type="hidden" name="csrf_name" value="{{ csrf_name }}">
+                    <input type="hidden" name="csrf_value" value="{{ csrf_value }}">
+                    <input type="hidden" class="form-control" name="form_sent" value="1" />
 
-
-{% if isAdmin() == false %}
-
-                <legend>{{ trans('Delete ban legend') }}</legend>
-                <div class="infldset">
-                    <p><input type="submit" name="ban" value="{{ trans('Ban user') }}" /></p>
-                </div>
-            </fieldset>
-        </div>
-
-{% else %}
-        {% if userGet('id') != id %}
-
-                    <legend>{{ trans('Group membership legend') }}</legend>
-                    <div class="infldset">
-                        <select id="group_id" name="group_id">
-                            {{ group_list|raw }}
-                        </select>
-                        <input type="submit" name="update_group_membership" value="{{ trans('Save') }}" />
+                {% if isAdmin() == false %}
+                    <div class="row form-group">
+                        <div class="col col-md-3"><label for="text-input"
+                                class=" form-control-label">{{ trans('Delete ban legend') }}</label></div>
+                        <div class="col-12 col-md-9">
+    
+                            <button type="submit" class="form-control" name="ban">
+                                {{ trans('Ban user') }}
+                            </button>
+                        </div>
                     </div>
-                </fieldset>
-                    </div>
-                    <div class="inform">
-                <fieldset>
-
-        {% endif %}
-
-                <legend>{{ trans('Delete ban legend') }}</legend>
-                <div class="infldset">
-                    <input type="submit" name="delete_user" value="{{ trans('Delete user') }}" />
-                    <input type="submit" name="ban" value="{{ trans('Ban user') }}" />
-                </div>
-            </fieldset>
-        </div>
-
-
-        {% if canGroup(user.g_id, 'mod.is_mod') or isAdmin() %}
-
-            <div class="inform">
-                <fieldset>
-                    <legend>{{ trans('Set mods legend') }}</legend>
-                    <div class="infldset">
-                        <p>{{ trans('Moderator in info') }}</p>
-                                {{ forum_list|raw }}
+                {% else %}
+                     {% if userGet('id') != id %}
+                         <div class="row form-group">
+                            <div class="col col-md-3"><label for="text-input"
+                                    class=" form-control-label">{{ trans('Group membership legend') }}</label></div>
+                            <div class="col-12 col-md-9">
+        
+                                <button type="submit" class="form-control" name="update_group_membership">
+                                    {{ trans('Save') }}
+                                </button>
                             </div>
                         </div>
-                        <br class="clearb" /><input type="submit" name="update_forums" value="{{ trans('Update forums') }}" />
+
+                    {% endif %}
+
+                    <div class="row form-group">
+                        <div class="col col-md-3"><label for="text-input"
+                                class=" form-control-label">{{ trans('Delete ban legend') }}</label></div>
+                        <div class="col-12 col-md-9">
+                            <div class="row">
+                                <button type="submit" class="btn btn-danger" name="ban">
+                                {{ trans('Ban user') }}
+                            </button>
+
+                            &nbsp;
+                            &nbsp;
+
+                            <button type="submit" class="btn btn-warning" name="delete_user">
+                                {{ trans('Delete user') }}
+                            </button>
+                            </div>
+                        </div>
                     </div>
-                </fieldset>
-            </div>
 
-        {% endif %}
+                    {% if canGroup(user.g_id, 'mod.is_mod') or isAdmin() %}
 
-{% endif %}
+                        <div class="row form-group">
+                            <div class="col col-md-3"><label for="text-input"
+                                    class=" form-control-label">{{ trans('Set mods legend') }}</label></div>
+                            <div class="col-12 col-md-9">
+                                {{ forum_list|raw }}
 
+                                <small class="help-block form-text">
+                                    {{ trans('Moderator in info') }}
+                                </small>
+                            </div>
+                        </div>
 
+                    {% endif %}
+                {% endif %}
+                   
+                    <small class="help-block form-text">
+                        {{ trans('Instructions') }}
+                    </small>
+                </div>
+                <div class="card-footer">
+                    <button type="submit" class="btn btn-primary btn-sm" name="update_forums">
+                        <i class="fa fa-dot-circle-o"></i> {{  trans('Update forums') }}
+                    </button>
+                    <button type="reset" class="btn btn-danger btn-sm">
+                        <i class="fa fa-ban"></i> {{ trans('Reset') }}
+                    </button>
+                </div>
             </form>
         </div>
     </div>
-    <div class="clearer"></div>
-</div>
 
     {{ fireHook('view.profile.section_admin.end') }}
 {% endblock content %}

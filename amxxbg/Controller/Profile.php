@@ -300,7 +300,7 @@ class Profile
             }
 
             if (Request::isPost()) {
-                return $this->model->uploadAvatar($args['id'], $_fILES);
+                return $this->model->uploadAvatar($args['id'], $_FILES);
             }
 
             return View::setPageInfo([

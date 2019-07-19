@@ -97,40 +97,5 @@
             </form>
             </div>
         </div>
-
-    {% if tid and settings('o_topic_review') != '0' %}
-
-    <div id="postreview">
-        <h2><span>{{ trans('Topic review') }}</span></h2>
-
-        {% for post in post_data %}
-
-        <div class="blockpost">
-            <div class="box{{ loop.index % 2 == 0 ? ' roweven' : ' rowodd' }}">
-                <div class="inbox">
-                    <div class="postbody">
-                        <div class="postleft">
-                            <dl>
-                                <dt><strong>{{ post.poster }}</strong></dt>
-                                <dd><span>{{ formatTime(post.posted) }}</span></dd>
-                            </dl>
-                        </div>
-                        <div class="postright">
-                            <div class="postmsg">
-                                {{ post.message|raw }}
-                            </div>
-                        </div>
-                    </div>
-                    <div class="clearer"></div>
-                </div>
-            </div>
-        </div>
-
-        {% endfor %}
-
-
-    </div>
-    {% endif %}
-
     {{ fireHook('view.post.end') }}
 {% endblock content %}

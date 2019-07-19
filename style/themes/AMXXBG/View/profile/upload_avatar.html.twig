@@ -6,35 +6,48 @@
 
     {% include '@forum/profile/menu.html.twig' %}
 
-<div class="blockform">
-    <h2><span>{{ trans('Upload avatar') }}</span></h2>
-    <div class="box">
-        <form id="upload_avatar" method="post" enctype="multipart/form-data" action="{{ pathFor('profileAction', {'id': id, 'action': 'upload_avatar2'}) }}" onsubmit="return process_form(this)">
-            <input type="hidden" name="csrf_name" value="{{ csrf_name }}">
-            <input type="hidden" name="csrf_value" value="{{ csrf_value }}">
-            <div class="inform">
-                <fieldset>
-                    <legend>{{ trans('Upload avatar legend') }}</legend>
-                    <div class="infldset">
-                        <input type="hidden" name="form_sent" value="1" />
-                        <input type="hidden" name="MAX_FILE_SIZE" value="{{ settings('o_avatars_size') }}" />
-                        <label class="required"><strong>{{ trans('File') }} <span>{{ trans('Required') }}</span></strong>
-                            <br /><input name="req_file" type="file" size="40" /><br /></label>
-                        <p>{{ trans('Avatar desc') }}
-                            {{ settings('o_avatars_width') }} x {{ settings('o_avatars_height') }}
-                            {{ trans('pixels') }} {{ trans('and') }} {{ formatNumber(settings('o_avatars_size')) }}
-                            {{ trans('bytes') }} ({{ avatarFormattedSize }})
-                        </p>
-                    </div>
-                </fieldset>
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-header">
+                <strong> {{ trans('Upload avatar') }} </strong>
             </div>
-            <p class="buttons">
-                <input type="submit" name="upload" value="{{ trans('Upload') }}" />
-                <a href="javascript:history.go(-1)">{{ trans('Go back') }}</a>
-            </p>
-        </form>
+            <div class="card-body card-block">
+                <form id="upload_avatar" method="post" enctype="multipart/form-data" action="{{ pathFor('profileAction', {'id': id, 'action': 'upload_avatar2'}) }}" onsubmit="return process_form(this)">
+                    <input type="hidden" name="csrf_name" value="{{ csrf_name }}">
+                    <input type="hidden" name="csrf_value" value="{{ csrf_value }}">
+                    <div><input type="hidden" name="form_sent" value="1" /></div>
+
+                    <input type="hidden" class="form-control" name="form_sent" value="1" />
+                    <input type="hidden" name="MAX_FILE_SIZE" value="{{ settings('o_avatars_size') }}" />
+                
+                    <div class="row form-group">
+                        <div class="col col-md-3"><label for="text-input"
+                                class=" form-control-label">{{ trans('File') }}</label></div>
+                        <div class="col-12 col-md-9">
+                            <input name="req_file" class="form-control-file" type="file" size="40" />
+
+                            <small class="help-block form-text">
+                                {{ trans('Required') }}<br/>
+
+                                {{ trans('Avatar desc') }}
+                                {{ settings('o_avatars_width') }} x {{ settings('o_avatars_height') }}
+                                {{ trans('pixels') }} {{ trans('and') }} {{ formatNumber(settings('o_avatars_size')) }}
+                                {{ trans('bytes') }} ({{ avatarFormattedSize }})
+                            </small>
+                        </div>
+                    </div>
+            </div>
+            <div class="card-footer">
+                <button type="submit" class="btn btn-primary btn-sm" name="upload">
+                    <i class="fa fa-dot-circle-o"></i> {{  trans('Upload') }}
+                </button>
+                <button type="reset" class="btn btn-danger btn-sm">
+                    <i class="fa fa-ban"></i> {{ trans('Reset') }}
+                </button>
+            </div>
+            </form>
+        </div>
     </div>
-</div>
 
     {{ fireHook('view.profile.upload_avatar.end') }}
 {% endblock content %}

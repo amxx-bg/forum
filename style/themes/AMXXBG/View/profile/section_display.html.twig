@@ -6,101 +6,116 @@
 
     {% include '@forum/profile/menu.html.twig' %}
 
-    <div class="blockform">
-        <h2><span>{{ user.username }} - {{ trans('Section display') }}</span></h2>
-        <div class="box">
-            <form id="profile5" method="post"
-                  action="{{ pathFor('profileSection', {'id': id, 'section': 'display'}) }}">
-                <input type="hidden" name="csrf_name" value="{{ csrf_name }}">
-                <input type="hidden" name="csrf_value" value="{{ csrf_value }}">
-                <div><input type="hidden" name="form_sent" value="1"/></div>
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-header">
+                <strong> {{ user.username }} </strong> - {{ trans('Section display') }}
+            </div>
+            <div class="card-body card-block">
+                <form id="profile5" method="post" class="form_horizontal"
+                    action="{{ pathFor('profileSection', {'id': id, 'section': 'display'}) }}">
+                    <input type="hidden" name="csrf_name" value="{{ csrf_name }}">
+                    <input type="hidden" name="csrf_value" value="{{ csrf_value }}">
+                    <input type="hidden" class="form-control" name="form_sent" value="1" />
 
-                {#// Only display the style selection box if there's more than one style available#}
-                {% if styles|length == 1 %}
-                    <div><input type="hidden" name="form_style" value="{{ styles.0 }}"/></div>
-                {% elseif styles|length > 1 %}
+                    {% if styles|length == 1 %}
+                        <div><input type="hidden" name="form_style" value="{{ styles.0 }}"/></div>
+                    {% elseif styles|length > 1 %}
 
-                    <div class="inform">
-                        <fieldset>
-                            <legend>{{ trans('Style legend') }}</legend>
-                            <div class="infldset">
-                                <label>{{ trans('Styles') }}<br/>
-                                    <select name="form_style">
-
-                                        {% for style in styles %}
-                                            <option value="{{ style }}"{{ user.style == style ? ' selected="selected"' : '' }}>
-                                                {{ style|join('_') }}
-                                            </option>
-                                        {% endfor %}
-                                    </select>
-                                    <br/></label>
+                        <div class="row form-group">
+                            <div class="col col-md-3">
+                                <label for="form_style" class="form-control-label">{{ trans('Styles') }}</label>
                             </div>
-                        </fieldset>
+                            <div class="col-12 col-md-9">
+                                <select name="form_style" class="form-control">
+
+                                    {% for style in styles %}
+                                        <option value="{{ style }}"{{ user.style == style ? ' selected="selected"' : '' }}>
+                                            {{ style|join('_') }}
+                                        </option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                    {% endif %}
+                
+                    <div class="row form-group">
+                        <div class="col col-md-3"><label for="text-input"
+                                class=" form-control-label">{{ trans('Post display legend') }}</label></div>
+                        <div class="col-12 col-md-9">
+
+                            {% if settings('o_smilies') == '1' or settings('o_smilies_sig') == '1' %}
+                                <label><input type="checkbox" name="form_show_smilies" class="switch-input"
+                                                value="1"{{ pref('show.smilies', user) == '1' ? ' checked="checked"' : '' }}/>{{ trans('Show smilies') }}
+                                    </label><br/>
+                            {% endif %}
+
+                            {% if settings('o_signatures') == '1' %}
+                                <label><input type="checkbox" name="form_show_sig" class="switch-input"
+                                                value="1"{{ pref('show.sig', user) == '1' ? ' checked="checked"' : '' }}/>{{ trans('Show sigs') }}
+                                    </label><br/>
+                            {% endif %}
+
+
+                            {% if settings('o_avatars') == '1' %}
+                                <label><input type="checkbox" name="form_show_avatars" class="switch-input"
+                                                value="1"{{ pref('show.avatars', user) == '1' ? ' checked="checked"' : '' }}/>{{ trans('Show avatars') }}
+                                    </label><br/>
+                            {% endif %}
+
+                            {% if settings('p_message_bbcode') == '1' and settings('p_message_img_tag') == '1' %}
+                                <label><input type="checkbox" name="form_show_img" class="switch-input"
+                                                value="1"{{ pref('show.img', user) == '1' ? ' checked="checked"' : '' }}/>{{ trans('Show images') }}
+                                    </label><br/>
+                            {% endif %}
+
+                            {% if settings('o_signatures') == '1' and settings('p_sig_bbcode') == '1' and settings('p_sig_img_tag') == '1' %}
+                                <label><input type="checkbox" name="form_show_img_sig" class="switch-input"
+                                                value="1"{{ pref('show.img.sig', user) == '1' ? ' checked="checked"' : '' }}/>{{ trans('Show images sigs') }}
+                                    </label><br/>
+                            {% endif %}
+                            <small class="help-block form-text">
+                                {{ trans('Post display info') }}
+                            </small>
+                        </div>
                     </div>
-                {% endif %}
 
-                <div class="inform">
-                    <fieldset>
-                        <legend>{{ trans('Post display legend') }}</legend>
-                        <div class="infldset">
-                            <p>{{ trans('Post display info') }}</p>
-                            <div class="rbox">
+                    <div class="row form-group">
+                        <div class="col col-md-3"><label for="text-input"
+                                class=" form-control-label">{{ trans('Pagination legend') }}</label></div>
+                        <div class="col-12 col-md-9">
+                                                
+                            <small class="help-block form-text">
+                                {{ trans('Paginate info') }}
+                            </small>
+                            <input type="text" class="form-control" name="form_disp_topics" value="{{ pref('disp.topics', user) }}" size="6"
+                                    maxlength="2"/>
+                                    <small class="help-block form-text">
+                                        {{ trans('Topics per page') }}
+                                    </small>
 
-                                {% if settings('o_smilies') == '1' or settings('o_smilies_sig') == '1' %}
-                                    <label><input type="checkbox" name="form_show_smilies"
-                                                  value="1"{{ pref('show.smilies', user) == '1' ? ' checked="checked"' : '' }}/>{{ trans('Show smilies') }}
-                                        <br/></label>
-                                {% endif %}
-
-                                {% if settings('o_signatures') == '1' %}
-                                    <label><input type="checkbox" name="form_show_sig"
-                                                  value="1"{{ pref('show.sig', user) == '1' ? ' checked="checked"' : '' }}/>{{ trans('Show sigs') }}
-                                        <br/></label>
-                                {% endif %}
-
-
-                                {% if settings('o_avatars') == '1' %}
-                                    <label><input type="checkbox" name="form_show_avatars"
-                                                  value="1"{{ pref('show.avatars', user) == '1' ? ' checked="checked"' : '' }}/>{{ trans('Show avatars') }}
-                                        <br/></label>
-                                {% endif %}
-
-                                {% if settings('p_message_bbcode') == '1' and settings('p_message_img_tag') == '1' %}
-                                    <label><input type="checkbox" name="form_show_img"
-                                                  value="1"{{ pref('show.img', user) == '1' ? ' checked="checked"' : '' }}/>{{ trans('Show images') }}
-                                        <br/></label>
-                                {% endif %}
-
-                                {% if settings('o_signatures') == '1' and settings('p_sig_bbcode') == '1' and settings('p_sig_img_tag') == '1' %}
-                                    <label><input type="checkbox" name="form_show_img_sig"
-                                                  value="1"{{ pref('show.img.sig', user) == '1' ? ' checked="checked"' : '' }}/>{{ trans('Show images sigs') }}
-                                        <br/></label>
-                                {% endif %}
-                            </div>
+                            <input type="text" class="form-control" name="form_disp_posts" value="{{ pref('disp.posts', user) }}" size="6"
+                                    maxlength="2"/>
+                                <small class="help-block form-text">
+                                        {{ trans('Posts per page') }}
+                                    </small>
                         </div>
-                    </fieldset>
-                </div>
+                    </div>
 
-                <div class="inform">
-                    <fieldset>
-                        <legend>{{ trans('Pagination legend') }}</legend>
-                        <div class="infldset">
-                            <label class="conl">{{ trans('Topics per page') }}<br/>
-                                <input type="text" name="form_disp_topics" value="{{ pref('disp.topics', user) }}" size="6"
-                                       maxlength="2"/><br/></label>
-                            <label class="conl">{{ trans('Posts per page') }}<br/>
-                                <input type="text" name="form_disp_posts" value="{{ pref('disp.posts', user) }}" size="6"
-                                       maxlength="2"/><br/></label>
-                            <p class="clearb">{{ trans('Paginate info') }} {{ trans('Leave blank') }}</p>
-                        </div>
-                    </fieldset>
-                </div>
-                <p class="buttons"><input type="submit" name="update"
-                                          value="{{ trans('Submit') }}"/> {{ trans('Instructions') }}</p>
+                    <small class="help-block form-text">
+                        {{ trans('Leave blank') }}
+                    </small>
+            </div>
+            <div class="card-footer">
+                <button type="submit" class="btn btn-primary btn-sm" name="update">
+                    <i class="fa fa-dot-circle-o"></i> {{  trans('Submit') }}
+                </button>
+                <button type="reset" class="btn btn-danger btn-sm">
+                    <i class="fa fa-ban"></i> {{ trans('Reset') }}
+                </button>
+            </div>
             </form>
         </div>
-    </div>
-    <div class="clearer"></div>
     </div>
 
     {{ fireHook('view.profile.section_display.end') }}

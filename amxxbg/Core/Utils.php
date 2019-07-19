@@ -400,7 +400,7 @@ class Utils
             $path = ForumSettings::get('o_avatars_dir').'/'.$userId.'.'.$curType;
 
             if (file_exists(ForumEnv::get('AMXXBG_ROOT').$path) && $imgSize = getimagesize(ForumEnv::get('AMXXBG_ROOT').$path)) {
-                $avatarMarkup = '<img src="'.self::escape(Container::get('url')->base(true).'/'.$path.'?m='.filemtime(ForumEnv::get('AMXXBG_ROOT').$path)).'" '.$imgSize[3].' alt="" />';
+                $avatarMarkup = '<img class="mx-auto d-block" src="'.self::escape(Container::get('url')->base(true).'/'.$path.'?m='.filemtime(ForumEnv::get('AMXXBG_ROOT').$path)).'" '.$imgSize[3].' alt="" />';
                 break;
             }
         }

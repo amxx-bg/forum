@@ -5,15 +5,11 @@
     {% include '@forum/search/header.html.twig' %}
 
     {{ fireHook('view.search.topics.start') }}
-
+<tbody>
 {% for search in display.cur_search %}
-
+    
     <tr class="{{ search.item_status }}">
         <td class="tcl">
-            <div class="{{ search.icon_type }}">
-                <div class="nosize">
-                {{ formatNumber(search.topic_count + search.start_from) }}</div>
-            </div>
             <div class="tclcon">
                 <div>
                     {{ search.subject|raw }}
@@ -27,7 +23,7 @@
 
 
 {% endfor %}
-
+</tbody>
     {{ fireHook('view.search.topics.end') }}
 
     {% include '@forum/search/footer.html.twig' %}

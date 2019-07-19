@@ -64,7 +64,7 @@ class Lister
 
         $iterator = new \DirectoryIterator(ForumEnv::get('AMXXBG_ROOT').'style/themes/');
         foreach ($iterator as $child) {
-            if (!$child->isDot() && $child->isDir() && file_exists($child->getPathname().DIRECTORY_SEPARATOR.'style.css')) {
+            if (!$child->isDot() && $child->isDir() && file_exists($child->getPathname().DIRECTORY_SEPARATOR.'bootstrap.php')) {
                 // If the theme is well formed, add it to the list
                 $styles[] = $child->getFileName();
             }

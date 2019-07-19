@@ -1027,19 +1027,19 @@ class Profile
         $userInfo['personal'][] = '<dd>'.((ForumSettings::get('o_censoring') == '1') ? Utils::censor($userTitleField) : $userTitleField).'</dd>';
 
         if ($user['realname'] != '') {
-            $userInfo['personal'][] = '<dt>'.__('Realname').'</dt>';
-            $userInfo['personal'][] = '<dd>'.Utils::escape((ForumSettings::get('o_censoring') == '1') ? Utils::censor($user['realname']) : $user['realname']).'</dd>';
+            $userInfo['personal'][] = '<li class="list-group-item"><i class="fa fa-address-card"></i>' .__('Realname');
+            $userInfo['personal'][] = '<span class="pull-right">'.Utils::escape((ForumSettings::get('o_censoring') == '1') ? Utils::censor($user['realname']) : $user['realname']).'</span></li>';
         }
 
         if ($user['location'] != '') {
-            $userInfo['personal'][] = '<dt>'.__('Location').'</dt>';
-            $userInfo['personal'][] = '<dd>'.Utils::escape((ForumSettings::get('o_censoring') == '1') ? Utils::censor($user['location']) : $user['location']).'</dd>';
+            $userInfo['personal'][] = '<li class="list-group-item"><i class="fa fa-map-marker"></i>'.__('Location');
+            $userInfo['personal'][] = '<span class="pull-right">'.Utils::escape((ForumSettings::get('o_censoring') == '1') ? Utils::censor($user['location']) : $user['location']).'</span></li>';
         }
 
         if ($user['url'] != '') {
             $user['url'] = Utils::escape((ForumSettings::get('o_censoring') == '1') ? Utils::censor($user['url']) : $user['url']);
-            $userInfo['personal'][] = '<dt>'.__('Website').'</dt>';
-            $userInfo['personal'][] = '<dd><span class="website"><a href="'.$user['url'].'" rel="nofollow">'.$user['url'].'</a></span></dd>';
+            $userInfo['personal'][] = '<li class="list-group-item"><i class="fa fa-safari"></i>'.__('Website');
+            $userInfo['personal'][] = '<span class="pull-right"><a href="'.$user['url'].'" rel="nofollow">'.$user['url'].'</a></span></li>';
         }
 
         if ($user['prefs']['email.setting'] == '0' && !User::get()->is_guest && User::can('email.send')) {
@@ -1050,8 +1050,8 @@ class Profile
             $user['email_field'] = '';
         }
         if ($user['email_field'] != '') {
-            $userInfo['personal'][] = '<dt>'.__('Email').'</dt>';
-            $userInfo['personal'][] = '<dd><span class="email">'.$user['email_field'].'</span></dd>';
+            $userInfo['personal'][] = '<li class="list-group-item"><i class="fa fa-envelope"></i>'.__('Email');
+            $userInfo['personal'][] = '<span class="pull-right">'.$user['email_field'].'</span></li>';
         }
 
         if (ForumSettings::get('o_avatars') == '1') {
@@ -1203,22 +1203,13 @@ class Profile
         $curCategory = 0;
         foreach ($result as $curForum) {
             if ($curForum['cid'] != $curCategory) {
-                // A new category since last iteration?
-                if ($curCategory) {
-                    $output .= "\n\t\t\t\t\t\t\t\t".'</div>';
-                }
-
-                if ($curCategory != 0) {
-                    $output .= "\n\t\t\t\t\t\t\t".'</div>'."\n";
-                }
-
-                $output .= "\t\t\t\t\t\t\t".'<div class="conl">'."\n\t\t\t\t\t\t\t\t".'<p><strong>'.Utils::escape($curForum['cat_name']).'</strong></p>'."\n\t\t\t\t\t\t\t\t".'<div class="rbox">';
+                $output .= '<div><strong>'.Utils::escape($curForum['cat_name']).'</strong></div>';
                 $curCategory = $curForum['cid'];
             }
 
             $moderators = ($curForum['moderators'] != '') ? unserialize($curForum['moderators']) : [];
 
-            $output .= "\n\t\t\t\t\t\t\t\t\t".'<label><input type="checkbox" name="moderator_in['.$curForum['fid'].']" value="1"'.((in_array($id, $moderators)) ? ' checked="checked"' : '').' />'.Utils::escape($curForum['forum_name']).'<br /></label>'."\n";
+            $output .= '<input type="checkbox" class="switch-input" name="moderator_in['.$curForum['fid'].']" value="1"'.((in_array($id, $moderators)) ? ' checked="checked"' : '').' />'.Utils::escape($curForum['forum_name']) . '</br>';
         }
 
         $output = Hooks::fire('model.profile.get_forum_list', $output);

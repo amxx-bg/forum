@@ -50,7 +50,7 @@
     <script {% for key, value in item.params %}{{ key }}={{ value }}
         {% endfor %}src="{{ urlBase() }}/{{ item.file }}" />
     </script>
-    {% else %}assets/
+    {% else %}
     <link {% for key, value in item.params %}{{ key }}={{ value }} {% endfor %} href="{{ urlBase() }}/{{ item.file }}">
     {% endif %}
     {% endfor %}

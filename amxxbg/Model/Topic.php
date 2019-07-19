@@ -181,7 +181,7 @@ class Topic
 
         if ($closed == '0') {
             if (($postReplies == '' && User::can('topic.reply')) || $postReplies == '1' || $isAdmmod) {
-                $postLink = "\t\t\t".'<p class="postlink conr"><a href="'.Router::pathFor('newReply', ['tid' => $topicId]).'">'.__('Post reply').'</a></p>'."\n";
+                $postLink = "\t\t\t".'<p class="postlink conr"><a class="btn btn-primary" href="'.Router::pathFor('newReply', ['tid' => $topicId]).'">'.__('Post reply').'</a></p>'."\n";
             } else {
                 $postLink = '';
             }
@@ -189,7 +189,7 @@ class Topic
             $postLink = __('Topic closed');
 
             if ($isAdmmod) {
-                $postLink .= ' / <a href="'.Router::pathFor('newReply', ['tid' => $topicId]).'">'.__('Post reply').'</a>';
+                $postLink .= ' / <a class="btn btn-primary" href="'.Router::pathFor('newReply', ['tid' => $topicId]).'">'.__('Post reply').'</a>';
             }
 
             $postLink = "\t\t\t".'<p class="postlink conr">'.$postLink.'</p>'."\n";
@@ -299,9 +299,9 @@ class Topic
         if (!User::get()->is_guest && ForumSettings::get('o_topic_subscriptions') == '1') {
             if ($isSubscribed) {
                 // I apologize for the variable naming here. It's a mix of subscription and action I guess :-)
-                $subscraction = "\t\t".'<p class="subscribelink clearb"><span>'.__('Is subscribed').' - </span><a href="'.Router::pathFor('unsubscribeTopic', ['id' => $topicId, 'name' => $topicSubject]).'">'.__('Unsubscribe').'</a></p>'."\n";
+                $subscraction = "\t\t".'<p class="subscribelink clearb"><span>'.__('Is subscribed').' - </span><a class="btn btn-primary" href="'.Router::pathFor('unsubscribeTopic', ['id' => $topicId, 'name' => $topicSubject]).'">'.__('Unsubscribe').'</a></p>'."\n";
             } else {
-                $subscraction = "\t\t".'<p class="subscribelink clearb"><a href="'.Router::pathFor('subscribeTopic', ['id' => $topicId, 'name' => $topicSubject]).'">'.__('Subscribe').'</a></p>'."\n";
+                $subscraction = "\t\t".'<p class="subscribelink clearb"><a class="btn btn-primary" href="'.Router::pathFor('subscribeTopic', ['id' => $topicId, 'name' => $topicSubject]).'">'.__('Subscribe').'</a></p>'."\n";
             }
         } else {
             $subscraction = '';
@@ -889,13 +889,13 @@ class Topic
                             $curPost['location'] = Utils::censor($curPost['location']);
                         }
 
-                        $curPost['user_info'][] = '<dd><span>'.__('From').' '.Utils::escape($curPost['location']).'</span></dd>';
+                        $curPost['user_info'][] = '<li class="list-group-item"><i class="fa fa-location-arrow"></i> '.__('From').'<span class="badge badge-info pull-right"> '.Utils::escape($curPost['location']).'</span></dd>';
                     }
 
-                    $curPost['user_info'][] = '<dd><span>'.__('Registered topic').' '.Utils::formatTime($curPost['registered'], true).'</span></dd>';
+                    $curPost['user_info'][] = '<li class="list-group-item"><i class="fa fa-calendar"></i> '.__('Registered topic').' <span class="badge badge-warning pull-right"> '.Utils::formatTime($curPost['registered'], true).'</span></dd>';
 
                     if (ForumSettings::get('o_show_post_count') == '1' || User::isAdminMod()) {
-                        $curPost['user_info'][] = '<dd><span>'.__('Posts topic').' '.Utils::forumNumberFormat($curPost['num_posts']).'</span></dd>';
+                        $curPost['user_info'][] = '<li class="list-group-item"><i class="fa fa-comment"></i> '.__('Posts topic').' <span class="badge badge-secondary pull-right"> '.Utils::forumNumberFormat($curPost['num_posts']).'</span></dd>';
                     }
 
                     // Now let's deal with the contact links (Email and URL)
@@ -924,7 +924,7 @@ class Topic
                 }
 
                 if (User::isAdminMod()) {
-                    $curPost['user_info'][] = '<dd><span><a href="'.Router::pathFor('getPostHost', ['pid' => $curPost['id']]).'" title="'.Utils::escape($curPost['poster_ip']).'">'.__('IP address logged').'</a></span></dd>';
+                    $curPost['user_info'][] = '<li class="list-group-item"><i class="fa fa-compass"></i> <a href="'.Router::pathFor('getPostHost', ['pid' => $curPost['id']]).'" title="'.Utils::escape($curPost['poster_ip']).'">'.__('IP address logged').'</a></dd>';
 
                     if ($curPost['admin_note'] != '') {
                         $curPost['user_info'][] = '<dd><span>'.__('Note').' <strong>'.Utils::escape($curPost['admin_note']).'</strong></span></dd>';
@@ -937,41 +937,41 @@ class Topic
                 $curPost['user_title_formatted'] = Utils::getTitle($curPost);
 
                 if (User::isAdminMod()) {
-                    $curPost['user_info'][] = '<dd><span><a href="'.Router::pathFor('getPostHost', ['pid' => $curPost['id']]).'" title="'.Utils::escape($curPost['poster_ip']).'">'.__('IP address logged').'</a></span></dd>';
+                    $curPost['user_info'][] = '<a tabindex="0" class="dropdown-item" href="'.Router::pathFor('getPostHost', ['pid' => $curPost['id']]).'" title="'.Utils::escape($curPost['poster_ip']).'">'.__('IP address logged').'</a>';
                 }
 
                 if (ForumSettings::get('o_show_user_info') == '1' && $curPost['poster_email'] != '' && !User::get()->is_guest && User::can('email.send')) {
-                    $curPost['user_contacts'][] = '<span class="email"><a href="mailto:'.Utils::escape($curPost['poster_email']).'">'.__('Email').'</a></span>';
+                    $curPost['user_contacts'][] = '<a tabindex="0" class="dropdown-item" href="mailto:'.Utils::escape($curPost['poster_email']).'">'.__('Email').'</a>';
                 }
             }
 
             // Generation post action array (quote, edit, delete etc.)
             if (!$isAdmmod) {
                 if (!User::get()->is_guest) {
-                    $curPost['post_actions'][] = '<li class="postreport"><span><a href="'.Router::pathFor('report', ['id' => $curPost['id']]).'">'.__('Report').'</a></span></li>';
+                    $curPost['post_actions'][] = '<a tabindex="0" class="dropdown-item" href="'.Router::pathFor('report', ['id' => $curPost['id']]).'">'.__('Report').'</a>';
                 }
 
                 if ($curTopic['closed'] == '0') {
                     if ($curPost['poster_id'] == User::get()->id) {
                         if ((($startFrom + $postCount) == 1 && User::can('topic.delete')) || (($startFrom + $postCount) > 1 && User::can('post.delete'))) {
-                            $curPost['post_actions'][] = '<li class="postdelete"><span><a href="'.Router::pathFor('deletePost', ['id' => $curPost['id']]).'">'.__('Delete').'</a></span></li>';
+                            $curPost['post_actions'][] = '<a tabindex="0" class="dropdown-item" href="'.Router::pathFor('deletePost', ['id' => $curPost['id']]).'">'.__('Delete').'</a>';
                         }
                         if (User::can('post.edit')) {
-                            $curPost['post_actions'][] = '<li class="postedit"><span><a href="'.Router::pathFor('editPost', ['id' => $curPost['id']]).'">'.__('Edit').'</a></span></li>';
+                            $curPost['post_actions'][] = '<a tabindex="0" class="dropdown-item" href="'.Router::pathFor('editPost', ['id' => $curPost['id']]).'">'.__('Edit').'</a>';
                         }
                     }
 
                     if (($curTopic['post_replies'] == '' && User::can('topic.reply')) || $curTopic['post_replies'] == '1') {
-                        $curPost['post_actions'][] = '<li class="postquote"><span><a href="'.Router::pathFor('newQuoteReply', ['tid' => $topicId, 'qid' => $curPost['id']]).'">'.__('Quote').'</a></span></li>';
+                        $curPost['post_actions'][] = '<a tabindex="0" class="dropdown-item" href="'.Router::pathFor('newQuoteReply', ['tid' => $topicId, 'qid' => $curPost['id']]).'">'.__('Quote').'</a>';
                     }
                 }
             } else {
-                $curPost['post_actions'][] = '<li class="postreport"><span><a href="'.Router::pathFor('report', ['id' => $curPost['id']]).'">'.__('Report').'</a></span></li>';
+                $curPost['post_actions'][] = '<a tabindex="0" class="dropdown-item" href="'.Router::pathFor('report', ['id' => $curPost['id']]).'">'.__('Report').'</a>';
                 if (User::isAdmin() || !in_array($curPost['poster_id'], Utils::getAdminIds())) {
-                    $curPost['post_actions'][] = '<li class="postdelete"><span><a href="'.Router::pathFor('deletePost', ['id' => $curPost['id']]).'">'.__('Delete').'</a></span></li>';
-                    $curPost['post_actions'][] = '<li class="postedit"><span><a href="'.Router::pathFor('editPost', ['id' => $curPost['id']]).'">'.__('Edit').'</a></span></li>';
+                    $curPost['post_actions'][] = '<a tabindex="0" class="dropdown-item" href="'.Router::pathFor('deletePost', ['id' => $curPost['id']]).'">'.__('Delete').'</a>';
+                    $curPost['post_actions'][] = '<a tabindex="0" class="dropdown-item" href="'.Router::pathFor('editPost', ['id' => $curPost['id']]).'">'.__('Edit').'</a>';
                 }
-                $curPost['post_actions'][] = '<li class="postquote"><span><a href="'.Router::pathFor('newQuoteReply', ['tid' => $topicId, 'qid' => $curPost['id']]).'">'.__('Quote').'</a></span></li>';
+                $curPost['post_actions'][] = '<a tabindex="0" class="dropdown-item" href="'.Router::pathFor('newQuoteReply', ['tid' => $topicId, 'qid' => $curPost['id']]).'">'.__('Quote').'</a>';
             }
 
             // Perform the main parsing of the message (BBCode, smilies, censor words etc)

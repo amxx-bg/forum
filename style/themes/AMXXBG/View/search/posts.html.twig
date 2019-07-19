@@ -52,18 +52,10 @@
                     <div class="clearer"></div>
                 </div>
             </div>
-            <div class="inbox">
-                <div class="postfoot clearb">
-                    <div class="postfootright">
-                        <ul>
-                            <li><span><a href="{{ pathFor('Topic', {'id': search.tid, 'name': search.url_topic}) }}">{{ trans('Go to topic') }}</a></span>
-                            </li>
-                            <li><span><a href="{{ pathFor('viewPost', {'id': search.tid, 'name': search.url_topic, 'pid': search.pid}) ~'#p' ~ search.pid }}">{{ trans('Go to post') }}</a>
-                                </span>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
+            <div class="row">
+                <a class="btn btn-primary" href="{{ pathFor('Topic', {'id': search.tid, 'name': search.url_topic}) }}">{{ trans('Go to topic') }}</a>
+                &nbsp; &nbsp;
+                <a class="btn btn-warning" href="{{ pathFor('viewPost', {'id': search.tid, 'name': search.url_topic, 'pid': search.pid}) ~'#p' ~ search.pid }}">{{ trans('Go to post') }}</a>
             </div>
         </div>
     </div>
