@@ -2,8 +2,6 @@
 
 /**
  * Copyright (C) 2019 AMXXBG
- * based on code by (C) 2008-2015 FluxBB
- * and Rickard Andersson (C) 2002-2008 PunBB
  * License: http://www.gnu.org/licenses/gpl.html GPL version 2 or higher.
  */
 

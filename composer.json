@@ -27,6 +27,7 @@
         "s9e/text-formatter": "^0.9",
         "rb28dett/php-utf-8": "*",
         "twig/twig": "2.*",
-        "vlucas/phpdotenv": "^3.3"
+        "vlucas/phpdotenv": "^3.3",
+        "monolog/monolog": "^1.24"
     }
 }

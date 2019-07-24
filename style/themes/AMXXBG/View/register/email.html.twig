@@ -4,32 +4,41 @@
 
     {{ fireHook('view.register.email.start') }}
 
-    <div id="emailform" class="blockform">
-        <h2><span>{{ trans('Send email to') }} {{ recipient }}</span></h2>
-        <div class="box">
-            <form id="email" method="post" action="{{ pathFor('email', {'id': id}) }}" onsubmit="this.submit.disabled=true;if(process_form(this)){return true;}else{this.submit.disabled=false;return false;}">
-                <input type="hidden" name="csrf_name" value="{{ csrf_name }}">
-                <input type="hidden" name="csrf_value" value="{{ csrf_value }}">
-                <div class="inform">
-                    <fieldset>
-                        <legend>{{ trans('Write email') }}</legend>
-                        <div class="infldset txtarea">
-                            <input type="hidden" name="form_sent" value="1" />
-                            <input type="hidden" name="redirect_url" value="{{ redirect_url }}" />
-                            <label class="required"><strong>{{ trans('Email subject') }} <span>{{ trans('Required') }}</span></strong><br />
-                            <input class="longinput" type="text" name="req_subject" size="75" maxlength="70" tabindex="1" /><br /></label>
-                            <label class="required"><strong>{{ trans('Email message') }} <span>{{ trans('Required') }}</span></strong><br />
-                            <textarea name="req_message" rows="10" cols="75" tabindex="2"></textarea><br /></label>
-                            <p>{{ trans('Email disclosure note') }}</p>
-                        </div>
-                    </fieldset>
+<form id="email" method="post" action="{{ pathFor('email', {'id': id}) }}" onsubmit="this.submit.disabled=true;if(process_form(this)){return true;}else{this.submit.disabled=false;return false;}">
+    <div id="emailform" class="card">
+       <div class="card-header"> <strong>{{ trans('Send email to') }} {{ recipient }}</strong></div>
+        <div class="card-body">
+            <input type="hidden" name="csrf_name" value="{{ csrf_name }}">
+            <input type="hidden" name="csrf_value" value="{{ csrf_value }}">
+            <input type="hidden" name="form_sent" value="1" />
+            <input type="hidden" name="redirect_url" value="{{ redirect_url }}" />
+
+            <div class="row form-group">
+                <div class="col col-md-3"><label for="req_subject" class=" form-control-label">{{ trans('Email subject') }}</label></div>
+                <div class="col-12 col-md-9">
+                    <input class="longinput" type="text" class="form-control" name="req_subject" size="75" maxlength="70" tabindex="1" />
+
+                    <small class="help-block form-text"><span class="pull-right">{{ trans('Required') }}</span></small>
                 </div>
-                <p class="buttons"><input type="submit" name="submit" value="{{ trans('Submit') }}" tabindex="3" accesskey="s" />
-                    <a href="javascript:history.go(-1)">{{ trans('Go back') }}</a>
-                </p>
-            </form>
+            </div>
+
+            <div class="row form-group">
+                <div class="col col-md-3"><label for="req_message" class=" form-control-label">{{ trans('Email message') }}</label></div>
+                <div class="col-12 col-md-9">
+                    <textarea name="req_message" class="form-control" rows="10" cols="75" tabindex="2"></textarea>
+
+                    <small class="help-block form-text"><span class="pull-right">{{ trans('Required') }}</span></small>
+                </div>
+            </div>
+
+            <small class="help-block form-text">{{ trans('Email disclosure note') }}</small>
+        </div>
+        <div class="card-footer">
+            <button type="submit" name="submit" tabindex="3" accesskey="s">{{ trans('Submit') }}</button>
+            <button type="reset">{{ trans('Reset') }}</button>
         </div>
     </div>
+</form>
 
     {{ fireHook('view.register.email.end') }}
 {% endblock content %}

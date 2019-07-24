@@ -1113,14 +1113,14 @@ class Profile
 
         if (User::isAdminMod()) {
             if (User::isAdmin() || User::can('mod.rename_users')) {
-                $userDisp['username_field'] = '<input type="text" class="form-control" name="req_username" value="'.Utils::escape($user['username']).'" size="25" maxlength="25" required /><br /></label>'."\n";
+                $userDisp['username_field'] = '<input type="text" class="form-control" name="req_username" value="'.Utils::escape($user['username']).'" size="25" maxlength="25" required  disabled/><br /></label>'."\n";
             } else {
-                $userDisp['username_field'] = '<p>'.sprintf(__('Username info'), Utils::escape($user['username'])).'</p>'."\n";
+                $userDisp['username_field'] = '<input type="text" class="form-control" name="req_username" value="'.Utils::escape($user['username']).'" size="25" maxlength="25" required  disabled/><br /></label>'."\n";
             }
 
             $userDisp['email_field'] = '<input type="text" class="form-control" name="req_email" value="'.Utils::escape($user['email']).'" size="40" maxlength="80" required /><br /></label><p><span class="email"><a class="btn btn-primary" href="'.Router::pathFor('email', ['id' => $id]).'">'.__('Send email').'</a></span></p>'."\n";
         } else {
-            $userDisp['username_field'] = '<p>'.__('Username').': '.Utils::escape($user['username']).'</p>'."\n";
+            $userDisp['username_field'] = '<input type="text" class="form-control" name="req_username" value="'.Utils::escape($user['username']).'" size="25" maxlength="25" required  disabled/><br /></label>'."\n";
 
             if (ForumSettings::get('o_regs_verify') == '1') {
                 $userDisp['email_field'] = '<p>'.sprintf(__('Email info'), Utils::escape($user['email']).' - <a href="'.Router::pathFor('profileAction', ['id' => $id, 'action' => 'change_email']).'">'.__('Change email').'</a>').'</p>'."\n";
@@ -1133,9 +1133,9 @@ class Profile
         $postsActions = [];
 
         if (User::isAdmin()) {
-            $userDisp['posts_field'] .= '<label>'.__('Posts').'<br /><input type="text" class="form-control" name="num_posts" value="'.$user['num_posts'].'" size="8" maxlength="8" disabled/><br /></label>';
+            $userDisp['posts_field'] .= '<label>'.__('Posts').'<br /><input type="text" class="form-control" name="num_posts" value="'.$user['num_posts'].'" size="8" maxlength="8" disabled/></label><br/>';
         } elseif (ForumSettings::get('o_show_post_count') == '1' || User::isAdminMod()) {
-            $postsActions[] = sprintf(__('Posts info'), Utils::forumNumberFormat($user['num_posts']));
+            $postsActions[] = '<label>'.__('Posts').'<br /><input type="text" class="form-control" name="num_posts" value="'.$user['num_posts'].'" size="8" maxlength="8" disabled/></label><br/>';
         }
 
         if (User::can('search.topics') || User::isAdmin()) {

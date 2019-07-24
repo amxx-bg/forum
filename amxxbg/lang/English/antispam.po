@@ -11,14 +11,17 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: en\n"
-"X-Generator: Poedit 1.8.4\n"
+"X-Generator: Poedit 2.2.3\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 
 msgid "Robot title"
 msgstr "Are you human or robot?"
 
 msgid "Robot question"
-msgstr "Please respond with a <b>number</b> to the question: <b>%s</b>"
+msgstr "%s"
+
+msgid "Robot question small"
+msgstr "Please respond with a number to the question"
 
 msgid "Robot info"
 msgstr "Checking if this is requested by a real person and not an automated program."

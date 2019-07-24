@@ -4,12 +4,27 @@
 
     {{ fireHook('view.login.form.start') }}
 
+{#// If there are errors, we display them#}
+{% if errors is not empty %}
+<div class="sufee-alert alert with-close alert-danger alert-dismissible fade show">
+    <span class="badge badge-pill badge-danger">{{ trans('Registration errors') }}</span><br/>
+
+   {% for cur_error in errors %}
+        <li><strong>{{ cur_error }}</strong></li>
+    {% endfor %}
+
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">×</span>
+    </button>
+</div>
+
+
+{% endif %}
+
     <div class="sufee-login d-flex align-content-center flex-wrap">
         <div class="container">
             <div class="login-content">
-                <div class="login-logo">
-                    <h2><span class="muted">{{ trans('Login') }}</span></h2>
-                </div>
+                <h2 class="text-center pb-1 display-4"><span>{{ trans('Login') }}</span></h2>
                 <div class="login-form">
                     <form id="login" method="post" action="{{ pathFor('login') }}" onsubmit="return process_form(this)">
                         <input type="hidden" name="csrf_name" value="{{ csrf_name }}">

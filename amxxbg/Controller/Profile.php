@@ -152,7 +152,7 @@ class Profile
                     throw new Error(__('Bad request'), 404);
                 }
 
-                $avatarField = '<span><a href="'.Router::pathFor('profileAction', ['id' => $args['id'], 'action' => 'upload_avatar']).'">'.__('Change avatar').'</a></span>';
+                $avatarField = '<span><a class="btn btn-primary" href="'.Router::pathFor('profileAction', ['id' => $args['id'], 'action' => 'upload_avatar']).'">'.__('Change avatar').'</a></span>';
 
                 $userAvatar = Utils::generateAvatarMarkup($args['id']);
                 if ($userAvatar) {

@@ -8,12 +8,8 @@
 
     {% for search in display.cur_search %}
 
-    <div class="blockpost{{ search.post_count % 2 == 0 ? ' roweven' : ' rowodd' }}
-        {{ search.pid == search.first_post_id ? ' firstpost' :
-            (search.post_count == 1 ? ' blockpost1' :
-            search.item_status != '' ? ' ' ~ search.item_status : '') }}">
-
-        <h2>
+    <div class="card">
+        <div class="card-header">
             <span>
                 <span class="conr"># {{ search.post_count }}</span>
                 <span>
@@ -21,42 +17,25 @@
                     {{ search.forum|raw }}
                 </span>
                 <span>»&#160;<a href="{{ pathFor('Topic', {'id': search.tid, 'name': search.url_topic}) }}">{{ search.subject }}</a></span>
-                <span>»&#160;<a href="{{ pathFor('viewPost', {'id': search.tid, 'name': search.url_topic, 'pid': search.pid}) ~'#p' . search.pid }}">{{ formatTime(search.pposted) }}</a>
-                </span>
+                <span>»&#160;<a href="{{ pathFor('viewPost', {'id': search.tid, 'name': search.url_topic, 'pid': search.pid}) ~'#p' . search.pid }}">{{ formatTime(search.pposted) }}</a></span>
             </span>
-        </h2>
+            <span class="pull-right">{{ search.pposter_disp|raw }}</span>
+        </div>
 
-        <div class="box">
-            <div class="inbox">
-                <div class="postbody">
-                    <div class="postleft">
-                        <dl>
-                            <dt>{{ search.pposter_disp|raw }}</dt>
-                            {% if search.pid == search.first_post_id %}
-                                <dd>
-                                    <span>{{ trans('Replies') }} {{ formatNumber(search.num_replies) }}</span>
-                                </dd>
-                            {% endif %}
-                            <dd>
-                                <div class="{{ search.icon_type }}">
-                                    <div class="nosize">{{ search.icon_text|raw }}</div>
-                                </div>
-                            </dd>
-                        </dl>
-                    </div>
-                    <div class="postright">
-                        <div class="postmsg">
-                            {{ search.message|raw }}
-                        </div>
-                    </div>
-                    <div class="clearer"></div>
+        <div class="card-body">
+                <div class="{{ search.icon_type }}">
+                    <div class="nosize">{{ search.icon_text|raw }}</div>
                 </div>
-            </div>
-            <div class="row">
-                <a class="btn btn-primary" href="{{ pathFor('Topic', {'id': search.tid, 'name': search.url_topic}) }}">{{ trans('Go to topic') }}</a>
-                &nbsp; &nbsp;
-                <a class="btn btn-warning" href="{{ pathFor('viewPost', {'id': search.tid, 'name': search.url_topic, 'pid': search.pid}) ~'#p' ~ search.pid }}">{{ trans('Go to post') }}</a>
-            </div>
+
+            {{ search.message|raw }}
+
+            <small class="help-block form-text"></small>
+
+            <a class="btn btn-primary" href="{{ pathFor('Topic', {'id': search.tid, 'name': search.url_topic}) }}">{{ trans('Go to topic') }}</a>
+            &nbsp; &nbsp;
+            <a class="btn btn-warning" href="{{ pathFor('viewPost', {'id': search.tid, 'name': search.url_topic, 'pid': search.pid}) ~'#p' ~ search.pid }}">{{ trans('Go to post') }}</a>
+            &nbsp; &nbsp;
+            <button class="btn btn-secondary" disabled="disabled">{{ trans('Replies') }} {{ formatNumber(search.num_replies) }}</button>
         </div>
     </div>
 

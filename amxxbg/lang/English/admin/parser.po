@@ -18,7 +18,7 @@ msgid "Parser head"
 msgstr "Parser Options, BBCodes and Smilies"
 
 msgid "reset_success"
-msgstr "Parser Options, BBCodes and Smilies successfully reset to FluxBB default settings."
+msgstr "Parser Options, BBCodes and Smilies successfully reset to AMXX-BG default settings."
 
 msgid "save_success"
 msgstr "Parser changes successfully saved."

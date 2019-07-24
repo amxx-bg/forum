@@ -22,6 +22,11 @@ use AMXXBG\Core\Interfaces\View;
 use AMXXBG\Core\Url;
 use AMXXBG\Core\Utils;
 
+Use AMXXBG\Model\Topic;
+
+use Monolog\Logger;
+use Monolog\Handler\StreamHandler;
+
 class Post
 {
     public function __construct()
@@ -260,6 +265,9 @@ class Post
     {
         Hooks::fire('controller.post.edit');
 
+        $log = new Logger('amxxbg');
+        $log->pushHandler(new StreamHandler('amxxbg_errors.log'));
+
         // Fetch some information about the post, the topic and the forum
         $curPost = $this->model->getInfoEdit($args['id']);
 
@@ -301,7 +309,13 @@ class Post
                 // Edit the post
                 $this->model->editPost($args['id'], $canEditSubject, $post, $curPost, $isAdmmod);
 
-                return Router::redirect(Router::pathFor('viewPost', ['id' => $curPost->tid, 'name' => Input::post('topic_subject'), 'pid' => $args['id']]).'#p'.$args['id'], __('Edit redirect'));
+                /*! Get Current Topic */
+                $topic = new Topic;
+                $topicInfo = $topic->getInfoTopic($curPost->tid);
+                
+                $topicSubject = strtolower(str_replace(' ', '-', $topicInfo['subject']));
+                
+                return Router::redirect(Router::pathFor('viewPost', ['id' => $curPost->tid, 'name' => $topicSubject, 'pid' => $args['id']]));
             }
         } else {
             $post = '';
@@ -312,7 +326,7 @@ class Post
             $previewMessage = Hooks::fire('controller.post.edit.preview', $previewMessage);
         } else {
             $previewMessage = '';
-        }
+        } 
 
         return View::setPageInfo([
                 'title' => [Utils::escape(ForumSettings::get('o_board_title')), __('Edit post')],

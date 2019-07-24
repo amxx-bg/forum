@@ -4,25 +4,32 @@
 
     {{ fireHook('view.register.rules.start') }}
 
-<div id="rules" class="blockform">
-    <div class="hd"><h2><span>{{ trans('Forum rules') }}</span></h2></div>
-    <div class="box">
-        <form method="get" action="{{ pathFor('register') }}">
-            <div class="inform">
-                <fieldset>
-                    <legend>{{ trans('Rules legend') }}</legend>
-                    <div class="infldset">
-                        <div class="usercontent">{{ settings('o_rules_message') }}</div>
-                    </div>
-                </fieldset>
-            </div>
+<form method="get" action="{{ pathFor('register') }}">
+    <div id="rules" class="card">
+        <div class="card-header"><strong>{{ trans('Forum rules') }}</strong></div>
+        <div class="card-body">
             <p class="buttons">
                 <input type="submit" name="agree" value="{{ trans('Agree') }}" />
                 <input type="submit" name="cancel" value="{{ trans('Cancel') }}" />
             </p>
-        </form>
+
+            <div class="col col-md-3"><label for="req_message" class=" form-control-label">{{ trans('Forum rules') }}</label></div>
+                <div class="col-12 col-md-9">
+                    <small class="help-block form-text"><span class="pull-right">{{ trans('Required') }}</span>{{ trans('Rules legend') }}</small>
+                    {{ settings('o_rules_message') }}
+                </div>
+            </div>
+        </div>
+        <div class="card-footer">
+             <button type="submit" class="btn btn-primary btn-sm" name="agree">
+                <i class="fa fa-dot-circle-o"></i> {{ trans('Agree') }}
+            </button>
+            <button type="submit" name="cancel" class="btn btn-danger btn-sm">
+                <i class="fa fa-ban"></i> {{ trans('Cancel') }}
+            </button>
+        </div>
     </div>
-</div>
+</form>
 
     {{ fireHook('view.register.rules.end') }}
 {% endblock content %}

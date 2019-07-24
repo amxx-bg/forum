@@ -828,9 +828,9 @@ class Search
 
         // We either show a list of forums of which multiple can be selected
         if (ForumSettings::get('o_search_all_forums') == '1' || User::isAdminMod()) {
-            $output .= "\t\t\t\t\t\t".'<div class="conl multiselect">'.__('Forum search')."\n";
-            $output .= "\t\t\t\t\t\t".'<br />'."\n";
-            $output .= "\t\t\t\t\t\t".'<div class="checklist">'."\n";
+            $output .= '<div>';
+            $output .= '<br />'."\n";
+            $output .= '<div>'."\n";
 
             $curCategory = 0;
             foreach ($result as $curForum) {
@@ -838,31 +838,31 @@ class Search
                     // A new category since last iteration?
 
                     if ($curCategory) {
-                        $output .= "\t\t\t\t\t\t\t\t".'</div>'."\n";
-                        $output .= "\t\t\t\t\t\t\t".'</fieldset>'."\n";
+                        $output .= '</div>'."\n";
+                        $output .= '</fieldset>'."\n";
                     }
 
-                    $output .= "\t\t\t\t\t\t\t".'<fieldset><legend><span>'.Utils::escape($curForum['cat_name']).'</span></legend>'."\n";
-                    $output .= "\t\t\t\t\t\t\t\t".'<div class="rbox">';
+                    $output .= '<strong>'.Utils::escape($curForum['cat_name']).'</strong>'."\n";
+                    $output .= '<div>';
                     $curCategory = $curForum['cid'];
                 }
 
-                $output .= "\t\t\t\t\t\t\t\t".'<label><input type="checkbox" name="forums[]" id="forum-'.$curForum['fid'].'" value="'.$curForum['fid'].'" />'.Utils::escape($curForum['forum_name']).'</label>'."\n";
+                $output .= '<label><input type="checkbox" class="switch-input" name="forums[]" id="forum-'.$curForum['fid'].'" value="'.$curForum['fid'].'" />'.Utils::escape($curForum['forum_name']).'</label><br>';
             }
 
             if ($curCategory) {
-                $output .= "\t\t\t\t\t\t\t\t".'</div>'."\n";
-                $output .= "\t\t\t\t\t\t\t".'</fieldset>'."\n";
+                $output .= '</div>'."\n";
+                $output .= '</fieldset>'."\n";
             }
 
-            $output .= "\t\t\t\t\t\t".'</div>'."\n";
-            $output .= "\t\t\t\t\t\t".'</div>'."\n";
+            $output .= '</div>'."\n";
+            $output .= '</div>'."\n";
         }
         // ... or a simple select list for one forum only
         else {
-            $output .= "\t\t\t\t\t\t".'<label class="conl">'.__('Forum search')."\n";
-            $output .= "\t\t\t\t\t\t".'<br />'."\n";
-            $output .= "\t\t\t\t\t\t".'<select id="forum" name="forum">'."\n";
+            $output .= '<label class="conl">'.__('Forum search')."\n";
+            $output .= '<br />'."\n";
+            $output .= '<select id="forum" class="form-control" name="forum">'."\n";
 
             $curCategory = 0;
             foreach ($result as $curForum) {
@@ -870,19 +870,19 @@ class Search
                     // A new category since last iteration?
 
                     if ($curCategory) {
-                        $output .= "\t\t\t\t\t\t\t".'</optgroup>'."\n";
+                        $output .= '</optgroup>'."\n";
                     }
 
-                    $output .= "\t\t\t\t\t\t\t".'<optgroup label="'.Utils::escape($curForum['cat_name']).'">'."\n";
+                    $output .= '<optgroup label="'.Utils::escape($curForum['cat_name']).'">'."\n";
                     $curCategory = $curForum['cid'];
                 }
 
-                $output .= "\t\t\t\t\t\t\t\t".'<option value="'.$curForum['fid'].'">'.Utils::escape($curForum['forum_name']).'</option>'."\n";
+                $output .= '<option class="switch-input" value="'.$curForum['fid'].'">'.Utils::escape($curForum['forum_name']).'</option>'."\n";
             }
 
-            $output .= "\t\t\t\t\t\t\t".'</optgroup>'."\n";
-            $output .= "\t\t\t\t\t\t".'</select>'."\n";
-            $output .= "\t\t\t\t\t\t".'<br /></label>'."\n";
+            $output .= '</optgroup>'."\n";
+            $output .= '</select>'."\n";
+            $output .= '<br /></label>'."\n";
         }
 
         $output = Hooks::fire('model.search.get_list_forums', $output);

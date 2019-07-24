@@ -647,7 +647,7 @@ class Url
 
     //
     // Generate a string with numbered links (for multipage scripts)
-    // Old FluxBB-style function for search page
+    // Old AMXX-BG-style function for search page
     //
     public static function paginateOld($numPages, $curPage, $link)
     {

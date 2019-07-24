@@ -15,10 +15,10 @@ msgstr ""
 "X-Poedit-SourceCharset: UTF-8\n"
 
 msgid "Update"
-msgstr "Update FluxBB"
+msgstr "Update AMXX-BG"
 
 msgid "Update message"
-msgstr "Your FluxBB database is out-of-date and must be upgraded in order to continue. If you are the board administrator, please follow the instructions below to complete the upgrade."
+msgstr "Your AMXX-BG database is out-of-date and must be upgraded in order to continue. If you are the board administrator, please follow the instructions below to complete the upgrade."
 
 msgid "Note"
 msgstr "Note:"
@@ -30,7 +30,7 @@ msgid "Administrator only"
 msgstr "This step is for the board administrator only!"
 
 msgid "Database password info"
-msgstr "To perform the database update please enter the database password with which FluxBB was installed. If you cannot remember, this is stored in your 'config.php' file."
+msgstr "To perform the database update please enter the database password with which AMXX-BG was installed. If you cannot remember, this is stored in your 'config.php' file."
 
 msgid "Database password note"
 msgstr "If you are running SQLite (and hence have no database password) please use the database file name instead. This must exactly match the database file name given in your configuration file."
@@ -48,16 +48,16 @@ msgid "Maintenance message"
 msgstr "Maintenance message"
 
 msgid "You are running error"
-msgstr "You are running %1$s version %2$s. FluxBB %3$s requires at least %1$s %4$s to run properly. You must upgrade your %1$s installation before you can continue."
+msgstr "You are running %1$s version %2$s. AMXX-BG %3$s requires at least %1$s %4$s to run properly. You must upgrade your %1$s installation before you can continue."
 
 msgid "Version mismatch error"
-msgstr "Version mismatch. The database '%s' doesn't seem to be running a FluxBB database schema supported by this update script."
+msgstr "Version mismatch. The database '%s' doesn't seem to be running a AMXX-BG database schema supported by this update script."
 
 msgid "Invalid file error"
 msgstr "Invalid database file name. When using SQLite the database file name must be entered exactly as it appears in your '%s'"
 
 msgid "Invalid password error"
-msgstr "Invalid database password. To upgrade FluxBB you must enter your database password exactly as it appears in your '%s'"
+msgstr "Invalid database password. To upgrade AMXX-BG you must enter your database password exactly as it appears in your '%s'"
 
 msgid "No password error"
 msgstr "No database password provided"
@@ -75,7 +75,7 @@ msgid "Intro 2"
 msgstr "Did you read the update instructions in the documentation? If not, start there."
 
 msgid "No charset conversion"
-msgstr "<strong>IMPORTANT!</strong> FluxBB has detected that this PHP environment does not have support for the encoding mechanisms required to do UTF-8 conversion from character sets other than ISO-8859-1. What this means is that if the current character set is not ISO-8859-1, FluxBB won't be able to convert your forum database to UTF-8 and you will have to do it manually. Instructions for doing manual charset conversion can be found in the update instructions."
+msgstr "<strong>IMPORTANT!</strong> AMXX-BG has detected that this PHP environment does not have support for the encoding mechanisms required to do UTF-8 conversion from character sets other than ISO-8859-1. What this means is that if the current character set is not ISO-8859-1, AMXX-BG won't be able to convert your forum database to UTF-8 and you will have to do it manually. Instructions for doing manual charset conversion can be found in the update instructions."
 
 msgid "Enable conversion"
 msgstr "<strong>Enable conversion:</strong> When enabled this update script will, after it has made the required structural changes to the database, convert all text in the database from the current character set to UTF-8. This conversion is required if you're upgrading from version 1.2."
@@ -102,7 +102,7 @@ msgid "Error converting users"
 msgstr "Error converting users"
 
 msgid "Error info 1"
-msgstr "There was an error converting some users. This can occur when converting from FluxBB v1.2 if multiple users have registered with very similar usernames, for example \"bob\" and \"böb\"."
+msgstr "There was an error converting some users. This can occur when converting from AMXX-BG v1.2 if multiple users have registered with very similar usernames, for example \"bob\" and \"böb\"."
 
 msgid "Error info 2"
 msgstr "Below is a list of users who failed to convert. Please choose a new username for each user. Users who are renamed will automatically be sent an email alerting them of the change."

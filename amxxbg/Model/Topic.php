@@ -299,9 +299,9 @@ class Topic
         if (!User::get()->is_guest && ForumSettings::get('o_topic_subscriptions') == '1') {
             if ($isSubscribed) {
                 // I apologize for the variable naming here. It's a mix of subscription and action I guess :-)
-                $subscraction = "\t\t".'<p class="subscribelink clearb"><span>'.__('Is subscribed').' - </span><a class="btn btn-primary" href="'.Router::pathFor('unsubscribeTopic', ['id' => $topicId, 'name' => $topicSubject]).'">'.__('Unsubscribe').'</a></p>'."\n";
+                $subscraction = '<div class="alert alert-info" role="alert">'.__('Is subscribed').'</div><a class="btn btn-primary" href="'.Router::pathFor('unsubscribeTopic', ['id' => $topicId, 'name' => $topicSubject]).'">'.__('Unsubscribe').'</a></p>'."\n";
             } else {
-                $subscraction = "\t\t".'<p class="subscribelink clearb"><a class="btn btn-primary" href="'.Router::pathFor('subscribeTopic', ['id' => $topicId, 'name' => $topicSubject]).'">'.__('Subscribe').'</a></p>'."\n";
+                $subscraction = '<p class="subscribelink clearb"><a class="btn btn-primary" href="'.Router::pathFor('subscribeTopic', ['id' => $topicId, 'name' => $topicSubject]).'">'.__('Subscribe').'</a></p>'."\n";
             }
         } else {
             $subscraction = '';

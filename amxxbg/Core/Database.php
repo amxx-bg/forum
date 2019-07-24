@@ -2572,7 +2572,7 @@ use Serializable;
      * A class to handle str_replace operations that involve quoted strings
      * @example IdiormString::str_replace_outside_quotes('?', '%s', 'columnA = "Hello?" AND columnB = ?');
      * @example IdiormString::value('columnA = "Hello?" AND columnB = ?')->replaceOutsideQuotes('?', '%s');
-     * @author Jeff Roberson <ridgerunner@fluxbb.org>
+     * @author Jeff Roberson <ridgerunner@AMXX-BG.org>
      * @author Simon Holywell <treffynnon@php.net>
      * @link http://stackoverflow.com/a/13370709/461813 StackOverflow answer
      */
@@ -2631,7 +2631,7 @@ use Serializable;
         /**
          * Validate an input string and perform a replace on all ocurrences
          * of $this->search with $this->replace
-         * @author Jeff Roberson <ridgerunner@fluxbb.org>
+         * @author Jeff Roberson <ridgerunner@AMXX-BG.org>
          * @link http://stackoverflow.com/a/13370709/461813 StackOverflow answer
          * @return string
          */
@@ -2664,7 +2664,7 @@ use Serializable;
         /**
          * Process each matching chunk from preg_replace_callback replacing
          * each occurrence of $this->search with $this->replace
-         * @author Jeff Roberson <ridgerunner@fluxbb.org>
+         * @author Jeff Roberson <ridgerunner@AMXX-BG.org>
          * @link http://stackoverflow.com/a/13370709/461813 StackOverflow answer
          * @param array $matches
          * @return string

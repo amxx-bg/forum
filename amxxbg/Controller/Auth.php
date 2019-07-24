@@ -52,7 +52,7 @@ class Auth
 
             $passwordVerified = Utils::passwordVerify($formPassword, $user->password);
 
-            // Convert FluxBB sha1 passwords
+            // Convert AMXX-BG sha1 passwords
             $oldPasswordHash = Utils::hashEquals(sha1($formPassword), $user->password);
             if ($oldPasswordHash) {
                 ModelAuth::updatePassword($user->id, $formPassword);

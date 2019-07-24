@@ -4,12 +4,10 @@
 
     {{ fireHook('view.misc.rules.start') }}
 
-    <div id="rules" class="block">
-        <div class="hd"><h2><span>{{ trans('Forum rules') }}</span></h2></div>
-        <div class="box">
-            <div id="rules-block" class="inbox">
-                <div class="usercontent">{{ settings('o_rules_message') }}</div>
-            </div>
+    <div id="rules" class="card">
+        <div class="card-header"><strong>{{ trans('Forum rules') }}</strong></div>
+        <div class="card-body">
+            {{ settings('o_rules_message') }}
         </div>
     </div>
 

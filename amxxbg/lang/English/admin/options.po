@@ -252,7 +252,7 @@ msgid "Version number label"
 msgstr "Version number"
 
 msgid "Version number help"
-msgstr "Show FluxBB version number in footer."
+msgstr "Show AMXX-BG version number in footer."
 
 msgid "Info in posts label"
 msgstr "User info in posts"
@@ -282,7 +282,7 @@ msgid "Clickable links label"
 msgstr "Make clickable links"
 
 msgid "Clickable links help"
-msgstr "When enabled, FluxBB will automatically detect any URLs in posts and make them clickable hyperlinks."
+msgstr "When enabled, AMXX-BG will automatically detect any URLs in posts and make them clickable hyperlinks."
 
 msgid "Topic review label"
 msgstr "Topic review"
@@ -321,7 +321,7 @@ msgid "Quick post label"
 msgstr "Quick reply"
 
 msgid "Quick post help"
-msgstr "When enabled, FluxBB will add a quick reply form at the bottom of topics. This way users can post directly from the topic view."
+msgstr "When enabled, AMXX-BG will add a quick reply form at the bottom of topics. This way users can post directly from the topic view."
 
 msgid "Users online label"
 msgstr "Users online"
@@ -363,7 +363,7 @@ msgid "GZip label"
 msgstr "GZip output"
 
 msgid "GZip help"
-msgstr "If enabled, FluxBB will gzip the output sent to browsers. This will reduce bandwidth usage, but use a little more CPU. This feature requires that PHP is configured with zlib (--with-zlib). Note: If you already have one of the Apache modules mod_gzip or mod_deflate set up to compress PHP scripts, you should disable this feature."
+msgstr "If enabled, AMXX-BG will gzip the output sent to browsers. This will reduce bandwidth usage, but use a little more CPU. This feature requires that PHP is configured with zlib (--with-zlib). Note: If you already have one of the Apache modules mod_gzip or mod_deflate set up to compress PHP scripts, you should disable this feature."
 
 msgid "Search all label"
 msgstr "Search all forums"
@@ -423,7 +423,7 @@ msgid "Upload directory label"
 msgstr "Upload directory"
 
 msgid "Upload directory help"
-msgstr "The upload directory for avatars (relative to the FluxBB root directory). PHP must have write permissions to this directory."
+msgstr "The upload directory for avatars (relative to the AMXX-BG root directory). PHP must have write permissions to this directory."
 
 msgid "Max width label"
 msgstr "Max width"
@@ -516,7 +516,7 @@ msgid "Report new label"
 msgstr "Report new registrations"
 
 msgid "Report new help"
-msgstr "If enabled, FluxBB will notify users on the mailing list (see above) when a new user registers in the forums."
+msgstr "If enabled, AMXX-BG will notify users on the mailing list (see above) when a new user registers in the forums."
 
 msgid "Use rules label"
 msgstr "User forum rules"

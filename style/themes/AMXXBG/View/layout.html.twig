@@ -145,11 +145,14 @@
                                     placeholder="{{ trans('Search') }}" aria-label="Search">
                                 <button class="search-close" type="submit"><i class="fa fa-close"></i></button>
                             </form> #}
+                            
 
                             <form method="get" action="{{ pathFor('search') }}" class="nav-search search-form">
                                 <input type="hidden" name="action" value="search">
                                 <input type="text" class="nav-search" name="keywords" size="20" maxlength="100" placeholder="{{ trans('Search') }}">
+                                <button class="search-close"><i class="fa fa-close"></i></button>
                             </form>
+
                         </div>
                     </div>
                 </div>

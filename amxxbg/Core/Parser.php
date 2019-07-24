@@ -204,7 +204,7 @@ class Parser
 
     /**
      * Display smilies
-     * Credits: FluxBB
+     * Credits: AMXX-BG
      * @param $text string containing smilies to parse
      * @return string text "smilied" :-)
      */

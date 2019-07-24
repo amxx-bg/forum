@@ -8,7 +8,9 @@
             <a class="nav-item nav-link {{ page == 'personality' ? ' active' : '' }}" id="custom-nav-contact-tab" href="{{ pathFor('profileSection', {'id': "#{ id }", 'section': 'personality'}) }}">{{ trans('Section personality') }}</a>
             <a class="nav-item nav-link {{ page == 'display' ? ' active' : '' }}" id="custom-nav-contact-tab" href="{{ pathFor('profileSection', {'id': "#{ id }", 'section': 'display'}) }}">{{ trans('Section display') }}</a>
             <a class="nav-item nav-link {{ page == 'privacy' ? ' active' : '' }}" id="custom-nav-contact-tab" href="{{ pathFor('profileSection', {'id': "#{ id }", 'section': 'privacy'}) }}">{{ trans('Section privacy') }}</a>
+            {% if canGroup(user.g_id, 'mod.is_mod') or isAdmin() %}
             <a class="nav-item nav-link {{ page == 'admin' ? ' active' : '' }}" id="custom-nav-contact-tab" href="{{ pathFor('profileSection', {'id': "#{ id }", 'section': 'admin'}) }}">{{ trans('Section admin') }}</a>
+            {% endif %}
         </div>
     </nav>
    </div>

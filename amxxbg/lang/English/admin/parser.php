@@ -2,7 +2,7 @@
 // Language definitions used by parser admin panel
 $lang_admin_parser = [
     'Parser head'            =>    'Parser Options, BBCodes and Smilies',
-    'reset_success'            =>    'Parser Options, BBCodes and Smilies successfully reset to FluxBB default settings.',
+    'reset_success'            =>    'Parser Options, BBCodes and Smilies successfully reset to AMXX-BG default settings.',
     'save_success'            =>    'Parser changes successfully saved.',
     'upload success'        =>    'Smiley file upload successful.',
     'reset defaults'            =>    'Restore default settings',
