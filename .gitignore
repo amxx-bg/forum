@@ -1,6 +1,5 @@
 .idea/
 .htaccess
-cache/
 /plugins/*
 !/plugins/test
 /style/img/avatars/*
