@@ -64,7 +64,7 @@ class AutoUpdater
      *
      * @var string
      */
-    protected $_updateUrl = 'https://amxxbg.org/updates/';
+    protected $_updateUrl = 'https://amxx-bg.info/updates/';
 
     /**
      * Version filename on the server.

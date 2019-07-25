@@ -54,7 +54,7 @@ class Updates
             if ($coreUpdater->newVersionAvailable()) {
                 $coreUpdates = true;
                 $coreUpdatesMessage = sprintf(__('AMXXBG core updates available'), ForumSettings::get('o_cur_version'), $coreUpdater->getLatestVersion());
-                $coreUpdatesMessage .= '<a href="https://github.com/amxx-bg/amxxbg/releases/tag/'.$coreUpdater->getLatestVersion().'" target="_blank">'.__('View changelog').'</a>';
+                $coreUpdatesMessage .= '<a href="https://github.com/amxx-bg/forum/releases/tag/'.$coreUpdater->getLatestVersion().'" target="_blank">'.__('View changelog').'</a>';
             }
         }
 
