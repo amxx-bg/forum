@@ -5,10 +5,10 @@
     {% include '@forum/admin/menu.html.twig' %}
 
     {{ fireHook('view.admin.categories.start') }}
-
-    <div class="blockform">
-        <h2><span>{{ trans('Add categories head') }}</span></h2>
-        <div class="box">
+<div class="col-md-8">
+    <div class="card">
+        <div class="card-header"><strong>{{ trans('Add categories head') }}</strong></div>
+        <div class="card-body">
             <form method="post" action="{{ pathFor('addCategory') }}">
                 <div class="inform">
                     <fieldset>
@@ -16,16 +16,22 @@
                         <div class="infldset">
                             <table class="aligntop">
                                 <tr>
-                                    <th scope="row">{{ trans('Add category label') }}
-                                        <div><input type="submit" value="{{ trans('Add new submit') }}" tabindex="2" /></div>
-                                    </th>
+                                    <tbody scope="row" class="form-text">{{ trans('Add category label') }}
+                                        
+                                    </td>
                                     <td>
                                         <input type="hidden" name="csrf_name" value="{{ csrf_name }}">
                                         <input type="hidden" name="csrf_value" value="{{ csrf_value }}">
-                                        <input type="text" name="cat_name" size="35" maxlength="80" tabindex="1" />
-                                        <span>
+
+                                        <input type="text" class="form-control" name="cat_name" size="35" maxlength="80" tabindex="1" />
+
+                                        <small class="help-block form-text">
                                             {{ trans(['Add category help', '<a href="' ~pathFor('adminForums') ~'">' ~trans('Forums') ~'</a>']) }}
-                                        </span>
+                                        </small>
+
+                                        <br>
+
+                                        <input type="submit" class="btn btn-primary" value="{{ trans('Add new submit') }}" tabindex="2" />
                                     </td>
                                 </tr>
                             </table>
@@ -37,8 +43,8 @@
 
     {% if cat_list is not empty %}
 
-        <h2 class="block2"><span>{{ trans('Delete categories head') }}</span></h2>
-        <div class="box">
+        <div class="card-body">
+            <p class="form-text">{{ trans('Delete categories head') }}</p>
             <form method="post" action="{{ pathFor('deleteCategory') }}">
                 <input type="hidden" name="csrf_name" value="{{ csrf_name }}">
                 <input type="hidden" name="csrf_value" value="{{ csrf_value }}">

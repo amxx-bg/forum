@@ -6,9 +6,10 @@
 
     {{ fireHook('view.admin.plugins.start') }}
 
-    <div class="block">
-        <h2>Plugins</h2>
-        <div class="box">
+<div class="col-md-8">
+    <div class="card">
+        <div class="card-header"><strong>{{ trans('Plugins') }}</strong></div>
+        <div class="card-body">
             <div class="inbox">
                 <table class="table">
                     <caption>{{ trans('Available plugins') }}</caption>
@@ -48,6 +49,10 @@
                 </table>
                 <p style="text-align:right">{{ availablePlugins|length }} elements</p>
             </div>
+            
+            <hr>
+            <p class="form-text text-center">{{ trans('Plugin center') }}</p>
+
             <div class="inbox">
                 <table class="table">
                     <caption>{{ trans('Available plugins') }}</caption>
@@ -81,9 +86,9 @@
             </div>
         </div>
     </div>
-
-    <div class="clearer"></div>
     </div>
+
+</div>
 
     {{ fireHook('view.admin.plugins.end') }}
 {% endblock content %}

@@ -6,9 +6,10 @@
 
     {{ fireHook('view.admin.censoring.start') }}
 
-    <div class="blockform">
-        <h2><span>{{ trans('Censoring head') }}</span></h2>
-        <div class="box">
+<div class="col-md-8">
+    <div class="card">
+        <div class="card-header"><strong>{{ trans('Censoring head') }}</strong></div>
+        <div class="card-body">
             <form id="censoring" method="post" action="{{ pathFor('adminCensoring') }}">
                 <input type="hidden" name="csrf_name" value="{{ csrf_name }}">
                 <input type="hidden" name="csrf_value" value="{{ csrf_value }}">
@@ -16,12 +17,12 @@
                     <fieldset>
                         <legend>{{ trans('Add word subhead') }}</legend>
                         <div class="infldset">
-                            <p>
+                            <small class="help-block form-text">
                                 {{ trans(['Add word info', settings('o_censoring') == '1'
                                 ? trans(['Censoring enabled', '<a href="' ~pathFor('adminOptions') ~'#censoring">' ~trans('Options') ~'</a>'])
                                 : trans(['Censoring disabled', '<a href="' ~pathFor('adminOptions') ~'#censoring">' ~trans('Options') ~'</a>'])
                                 ]) }}
-                            </p>
+                            </small>
                             <table>
                                 <thead>
                                 <tr>
@@ -32,11 +33,11 @@
                                 </thead>
                                 <tbody>
                                 <tr>
-                                    <td class="tcl"><input type="text" name="new_search_for" size="24" maxlength="60"
+                                    <td class="tcl"><input type="text" class="form-control" name="new_search_for" size="24" maxlength="60"
                                                            tabindex="1"/></td>
-                                    <td class="tc2"><input type="text" name="new_replace_with" size="24" maxlength="60"
+                                    <td class="tc2"><input type="text" class="form-control" name="new_replace_with" size="24" maxlength="60"
                                                            tabindex="2"/></td>
-                                    <td><input type="submit" name="add_word" value="{{ trans('Add') }}" tabindex="3"/>
+                                    <td><input type="submit" class="btn btn-primary" name="add_word" value="{{ trans('Add') }}" tabindex="3"/>
                                     </td>
                                 </tr>
                                 </tbody>
@@ -44,6 +45,7 @@
                         </div>
                     </fieldset>
                 </div>
+                <hr>
                 <div class="inform">
                     <fieldset>
                         <legend>{{ trans('Edit remove subhead') }}</legend>
@@ -65,17 +67,17 @@
                                     {% for word in word_data %}
                                         <tr>
                                             <td class="tcl">
-                                                <input type="text" name="search_for[{{ word.id }}]"
+                                                <input type="text" class="form-control" name="search_for[{{ word.id }}]"
                                                        value="{{ word.search_for }}" size="24" maxlength="60"/>
                                             </td>
                                             <td class="tc2">
-                                                <input type="text" name="replace_with[{{ word.id }}]"
+                                                <input type="text" class="form-control" name="replace_with[{{ word.id }}]"
                                                        value="{{ word.replace_with }}" size="24" maxlength="60"/>
                                             </td>
                                             <td>
-                                                <input type="submit" name="update[{{ word.id }}]"
+                                                <input type="submit" class="btn btn-warning" name="update[{{ word.id }}]"
                                                        value="{{ trans('Update') }}"/>&#160;
-                                                <input type="submit" name="remove[{{ word.id }}]"
+                                                <input type="submit" class="btn btn-danger" name="remove[{{ word.id }}]"
                                                        value="{{ trans('Remove') }}"/>
                                             </td>
                                         </tr>
@@ -96,8 +98,8 @@
             </form>
         </div>
     </div>
-    <div class="clearer"></div>
     </div>
+</div>
 
 
     {{ fireHook('view.admin.censoring.end') }}

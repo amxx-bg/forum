@@ -6,13 +6,14 @@
 
     {{ fireHook('view.admin.options.start') }}
 
-    <div class="blockform">
-        <h2><span>{{ trans('Options head') }}</span></h2>
-        <div class="box">
+<div class="col-md-8">
+    <div class="card">
+        <div class="card-header"><strong>{{ trans('Options head') }}</strong></div>
+        <div class="card-body">
             <form method="post" action="{{ pathFor('adminOptions') }}">
                 <input type="hidden" name="csrf_name" value="{{ csrf_name }}">
                 <input type="hidden" name="csrf_value" value="{{ csrf_value }}">
-                <p class="submittop"><input type="submit" name="save" value="{{ trans('Save changes') }}" /></p>
+                <p class="submittop"><input type="submit" class="btn btn-primary" name="save" value="{{ trans('Save changes') }}" /></p>
                 <div class="inform">
                     <input type="hidden" name="form_sent" value="1" />
                     <fieldset>
@@ -620,13 +621,12 @@
                     </fieldset>
                 </div>
                 {{ fireHook('view.admin.options.form') }}
-                <p class="submitend"><input type="submit" name="save" value="{{ trans('Save changes') }}" /></p>
+                <p class="submitend"><input type="submit" class="btn btn-primary" name="save" value="{{ trans('Save changes') }}" /></p>
             </form>
         </div>
     </div>
-    <div class="clearer"></div>
 </div>
-
+</div>
 
     {{ fireHook('view.admin.options.end') }}
 {% endblock content %}
