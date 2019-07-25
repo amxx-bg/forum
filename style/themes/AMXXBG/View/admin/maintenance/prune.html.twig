@@ -6,9 +6,9 @@
 
     {{ fireHook('view.admin.maintenance.prune.start') }}
 
-    <div class="blockform">
-        <h2><span>{{ trans('Prune head') }}</span></h2>
-        <div class="box">
+    <div class="card">
+        <div class="card"><span>{{ trans('Prune head') }}</span></div>
+        <div class="card-body">
             <form method="post" action="{{ pathFor('adminMaintenance') }}">
                 <input type="hidden" name="csrf_name" value="{{ csrf_name }}">
                 <input type="hidden" name="csrf_value" value="{{ csrf_value }}">
@@ -25,7 +25,8 @@
                         </div>
                     </fieldset>
                 </div>
-                <p class="buttons"><input type="submit" name="prune_comply" value="{{ trans('Prune') }}" /><a href="javascript:history.go(-1)">{{ trans('Go back') }}</a></p>
+                <br>
+                <p class="buttons"><input type="submit" class="btn btn-primary" name="prune_comply" value="{{ trans('Prune') }}" /><a href="javascript:history.go(-1)">{{ trans('Go back') }}</a></p>
             </form>
         </div>
     </div>

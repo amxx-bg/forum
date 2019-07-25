@@ -6,96 +6,85 @@
 
     {{ fireHook('view.admin.groups.admin_groups.start') }}
 
-    <div class="blockform">
-        <h2><span>{{ trans('Add groups head') }}</span></h2>
-        <div class="box">
+<div class="col-md-8">
+    <div class="card">
+        <div class="card-header"><span>{{ trans('Add groups head') }}</span></div>
+        <div class="card-body">
             <div class="inform">
                 <fieldset>
                     <form id="groups" method="post" action="{{ pathFor('addGroup') }}">
                         <input type="hidden" name="csrf_name" value="{{ csrf_name }}">
                         <input type="hidden" name="csrf_value" value="{{ csrf_value }}">
                         <legend>{{ trans('Add group subhead') }}</legend>
-                        <div class="infldset">
-                            <table class="aligntop">
-                                <tr>
-                                    <th scope="row">{{ trans('New group label') }}
-                                        <div><input type="submit" name="add_group" value="{{ trans('Add') }}"
-                                                    tabindex="2"/></div>
-                                    </th>
-                                    <td>
-                                        <select id="base_group" name="base_group" tabindex="1">
+                        {{ trans('New group label') }}
 
-                                            {% for cur_group in groups %}
-                                                {% if cur_group.g_id != getEnv('AMXXBG_ADMIN') and cur_group.g_id != getEnv('AMXXBG_GUEST') %}
+                            <select id="base_group" name="base_group" tabindex="1" class="form-control">
 
-                                                    <option value="{{ cur_group.g_id }}"{{ cur_group.g_id == settings('o_default_user_group') ? ' selected="selected"' : '' }}>{{ cur_group.g_title }}</option>
+                                {% for cur_group in groups %}
+                                    {% if cur_group.g_id != getEnv('AMXXBG_ADMIN') and cur_group.g_id != getEnv('AMXXBG_GUEST') %}
 
-                                                {% endif %}
-                                            {% endfor %}
+                                        <option value="{{ cur_group.g_id }}"{{ cur_group.g_id == settings('o_default_user_group') ? ' selected="selected"' : '' }}>{{ cur_group.g_title }}</option>
 
-                                        </select>
-                                        <span>{{ trans('New group help') }}</span>
-                                    </td>
-                                </tr>
-                            </table>
-                        </div>
+                                    {% endif %}
+                                {% endfor %}
+
+                            </select>
+                            <small class="help-block form-text">{{ trans('New group help') }}</small><br>
+                        <input type="submit" class="btn btn-primary" name="add_group" value="{{ trans('Add') }}"
+                                    tabindex="2"/>
                     </form>
                 </fieldset>
             </div>
+            <br>
+            <hr>
+            <br>
             <div class="inform">
                 <fieldset>
                     <form id="groups" method="post" action="{{ pathFor('adminGroups') }}">
                         <input type="hidden" name="csrf_name" value="{{ csrf_name }}">
                         <input type="hidden" name="csrf_value" value="{{ csrf_value }}>">
                         <legend>{{ trans('Default group subhead') }}</legend>
-                        <div class="infldset">
-                            <table class="aligntop">
-                                <tr>
-                                    <th scope="row">{{ trans('Default group label') }}
-                                        <div><input type="submit" name="set_default_group" value="{{ trans('Save') }}"
-                                                    tabindex="4"/></div>
-                                    </th>
-                                    <td>
-                                        <select id="default_group" name="default_group" tabindex="3">
+                            {{ trans('Default group label') }}
+                                <select id="default_group" name="default_group" tabindex="3" class="form-control">
 
 
-                                            {% for cur_group in groups %}
-                                                {% if cur_group.g_id > getEnv('AMXXBG_GUEST') and cur_group.is_moderator == 0 %}
+                                    {% for cur_group in groups %}
+                                        {% if cur_group.g_id > getEnv('AMXXBG_GUEST') and cur_group.is_moderator == 0 %}
 
-                                                    <option value="{{ cur_group.g_id }}"{{ cur_group.g_id == settings('o_default_user_group') ? ' selected="selected"' : '' }}>{{ cur_group.g_title }}</option>
+                                            <option value="{{ cur_group.g_id }}"{{ cur_group.g_id == settings('o_default_user_group') ? ' selected="selected"' : '' }}>{{ cur_group.g_title }}</option>
 
-                                                {% endif %}
-                                            {% endfor %}
+                                        {% endif %}
+                                    {% endfor %}
 
 
-                                        </select>
-                                        <span>{{ trans('Default group help') }}</span>
-                                    </td>
-                                </tr>
-                            </table>
-                        </div>
+                                </select>
+                                <small class="help-block form-text">{{ trans('Default group help') }}</small><br>
+                                <input type="submit" class="btn btn-primary" name="set_default_group" value="{{ trans('Save') }}"
+                                            tabindex="4"/>
                     </form>
                 </fieldset>
             </div>
+        <br>
+        <hr>
+        <br>
         </div>
-
-        <h2 class="block2"><span>{{ trans('Existing groups head') }}</span></h2>
-        <div class="box">
+        <div class="card-body">
+        <legend>{{ trans('Existing groups head') }}</legend>
             <div class="fakeform">
                 <div class="inform">
                     <fieldset>
-                        <legend>{{ trans('Edit groups subhead') }}</legend>
+                        <p>{{ trans('Edit groups subhead') }}</p>
                         <div class="infldset">
-                            <p>{{ trans('Edit groups info') }}</p>
-                            <table>
+                            <small class="help-block form-text">{{ trans('Edit groups info') }}</small><br>
+                            <table class="table">
 
 
                                 {% for cur_group in groups %}
                                     <tr>
-                                        <th scope="row"><a href="{{ pathFor('editGroup', {'id': cur_group.g_id}) }}"
+                                        <th scope="row"><a class="btn btn-warning" href="{{ pathFor('editGroup', {'id': cur_group.g_id}) }}"
                                                            tabindex="1">
                                                 {{ trans('Edit link') }}</a>
-                                            {{ cur_group.g_id > getEnv('AMXXBG_MEMBER') ? (' | <a href="' ~pathFor('deleteGroup', {'id': cur_group.g_id}) ~'" tabindex="' ~loop.index ~'">' ~trans('Delete link') ~'</a>')|raw : '' }}
+                                            {{ cur_group.g_id > getEnv('AMXXBG_MEMBER') ? (' &nbsp; <a class="btn btn-danger" href="' ~pathFor('deleteGroup', {'id': cur_group.g_id}) ~'" tabindex="' ~loop.index ~'">' ~trans('Delete link') ~'</a>')|raw : '' }}
                                         </th>
                                         <td>{{ cur_group.g_title }}</td>
                                     </tr>
@@ -111,6 +100,7 @@
         </div>
     </div>
     <div class="clearer"></div>
+    </div>
     </div>
 
 

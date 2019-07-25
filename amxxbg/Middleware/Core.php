@@ -68,7 +68,7 @@ class Core
                 'AMXXBG_ROOT' => '',
                 'FORUM_CONFIG_FILE' => '.env',
                 'FORUM_CACHE_DIR' => 'cache/',
-                'FORUM_VERSION' => '0.1.3-dev',
+                'FORUM_VERSION' => '0.2.0',
                 'FORUM_NAME' => 'AMXXBG',
                 'FORUM_DB_REVISION' => 21,
                 'FORUM_SI_REVISION' => 2,

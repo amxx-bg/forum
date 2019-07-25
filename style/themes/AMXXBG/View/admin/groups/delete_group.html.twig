@@ -6,9 +6,10 @@
 
     {{ fireHook('view.admin.groups.delete_group.start') }}
 
-    <div class="blockform">
-        <h2><span>{{ trans('Delete group head') }}</span></h2>
-        <div class="box">
+<div class="col-md-8">
+    <div class="card">
+        <div class="card-header"><span>{{ trans('Delete group head') }}</span></div>
+        <div class="card-body">
             <form id="groups" method="post" action="{{ pathFor('deleteGroup', {'id': id}) }}">
                 <input type="hidden" name="csrf_name" value="{{ csrf_name }}">
                 <input type="hidden" name="csrf_value" value="{{ csrf_value }}">
@@ -26,12 +27,13 @@
                         </div>
                     </fieldset>
                 </div>
-                <p class="buttons"><input type="submit" name="del_group" value="{{ trans('Delete group') }}" />
-                    <a href="javascript:history.go(-1)">{{ trans('Go back') }}</a></p>
+                <p class="buttons"><input type="submit" class="btn btn-danger" name="del_group" value="{{ trans('Delete group') }}" />
+                    <a class="btn btn-primary" href="javascript:history.go(-1)">{{ trans('Go back') }}</a></p>
             </form>
         </div>
     </div>
     <div class="clearer"></div>
+</div>
 </div>
 
     {{ fireHook('view.admin.groups.delete_group.end') }}

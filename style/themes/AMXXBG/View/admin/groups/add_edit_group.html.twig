@@ -6,14 +6,14 @@
 
     {{ fireHook('view.admin.groups.add_edit_group.start') }}
 
-
-    <div class="blockform">
-        <h2><span>{{ trans('Group settings head') }}</span></h2>
-        <div class="box">
+<div class="col-md-8">
+    <div class="card">
+        <div class="card-header"><span>{{ trans('Group settings head') }}</span></div>
+        <div class="card-body">
             <form id="groups2" method="post" action="" onsubmit="return process_form(this)">
                 <input type="hidden" name="csrf_name" value="{{ csrf_name }}">
                 <input type="hidden" name="csrf_value" value="{{ csrf_value }}">
-                <p class="submittop"><input type="submit" name="add_edit_group" value="{{ trans('Save') }}" /></p>
+                <p class="submittop"><input type="submit" class="btn btn-primary" name="add_edit_group" value="{{ trans('Save') }}" /></p>
                 <div class="inform">
                     <input type="hidden" name="mode" value="{{ group.mode }}" />
 
@@ -29,17 +29,17 @@
                         <legend>{{ trans('Group settings subhead') }}</legend>
                         <div class="infldset">
                             <p>{{ trans('Group settings info') }}</p>
-                            <table class="aligntop">
+                            <table class="table">
                                 <tr>
                                     <th scope="row">{{ trans('Group title label') }}</th>
                                     <td>
-                                        <input type="text" name="req_title" size="25" maxlength="50" value="{{ group.mode == 'edit' ? group.info.g_title : '' }}" tabindex="1" />
+                                        <input type="text" class="form-control" name="req_title" size="25" maxlength="50" value="{{ group.mode == 'edit' ? group.info.g_title : '' }}" tabindex="1" />
                                     </td>
                                 </tr>
                                 <tr>
                                     <th scope="row">{{ trans('User title label') }}</th>
                                     <td>
-                                        <input type="text" name="user_title" size="25" maxlength="50" value="{{ group.info.g_user_title }}" tabindex="2" />
+                                        <input type="text" class="form-control" name="user_title" size="25" maxlength="50" value="{{ group.info.g_user_title }}" tabindex="2" />
                                         <span>
                                              {{ trans(['User title help', (group.info.g_id != getEnv('AMXXBG_GUEST') ? trans('Member') : trans('Guest'))]) }}
                                         </span>
@@ -54,7 +54,7 @@
                                             <option value="0">{{ trans('Disable promotion') }}</option>
                                             {{ group_list|raw }}
                                         </select>
-                                        <input type="text" name="promote_min_posts" size="5" maxlength="10" value="{{ group.prefs['promote.min_posts'] }}" tabindex="4" />
+                                        <input type="text" class="form-control" name="promote_min_posts" size="5" maxlength="10" value="{{ group.prefs['promote.min_posts'] }}" tabindex="4" />
                                         <span>{{ trans(['Promote users help', trans('Disable promotion')]) }}</span>
                                     </td>
                                 </tr>
@@ -220,14 +220,14 @@
                                 <tr>
                                     <th scope="row">{{ trans('Post flood label') }}</th>
                                     <td>
-                                        <input type="text" name="post_flood" size="5" maxlength="4" value="{{ group.prefs['post.min_interval'] }}" tabindex="41" />
+                                        <input type="text" class="form-control" name="post_flood" size="5" maxlength="4" value="{{ group.prefs['post.min_interval'] }}" tabindex="41" />
                                         <span>{{ trans('Post flood help') }}</span>
                                     </td>
                                 </tr>
                                 <tr>
                                     <th scope="row">{{ trans('Search flood label') }}</th>
                                     <td>
-                                        <input type="text" name="search_flood" size="5" maxlength="4" value="{{ group.prefs['search.min_interval'] }}" tabindex="42" />
+                                        <input type="text" class="form-control" name="search_flood" size="5" maxlength="4" value="{{ group.prefs['search.min_interval'] }}" tabindex="42" />
                                         <span>{{ trans('Search flood help') }}</span>
                                     </td>
                                 </tr>
@@ -236,14 +236,14 @@
                                 <tr>
                                     <th scope="row">{{ trans('E-mail flood label') }}</th>
                                     <td>
-                                        <input type="text" name="email_flood" size="5" maxlength="4" value="{{ group.prefs['email.min_interval'] }}" tabindex="43" />
+                                        <input type="text" class="form-control" name="email_flood" size="5" maxlength="4" value="{{ group.prefs['email.min_interval'] }}" tabindex="43" />
                                         <span>{{ trans('E-mail flood help') }}</span>
                                     </td>
                                 </tr>
                                 <tr>
                                     <th scope="row">{{ trans('Report flood label') }}</th>
                                     <td>
-                                        <input type="text" name="report_flood" size="5" maxlength="4" value="{{ group.prefs['report.min_interval'] }}" tabindex="44" />
+                                        <input type="text" class="form-control" name="report_flood" size="5" maxlength="4" value="{{ group.prefs['report.min_interval'] }}" tabindex="44" />
                                         <span>{{ trans('Report flood help') }}</span>
                                     </td>
                                 </tr>
@@ -258,13 +258,14 @@
                         </div>
                     </fieldset>
                 </div>
-                <p class="submitend"><input type="submit" name="add_edit_group" value="{{ trans('Save') }}" tabindex="45" /></p>
+                <br>
+                <p class="submitend"><input type="submit" class="btn btn-primary" name="add_edit_group" value="{{ trans('Save') }}" tabindex="45" /></p>
             </form>
         </div>
     </div>
     <div class="clearer"></div>
 </div>
-
+</div>
 
     {{ fireHook('view.admin.groups.add_edit_group.end') }}
 {% endblock content %}

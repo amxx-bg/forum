@@ -34,7 +34,7 @@
                 <p>{{ trans('Ban search head') }}</p>
                 <form id="find_bans" method="get" action="{{ pathFor('adminBans') }}">
                 
-                    <button type="submit" class="btn btn-primary" name="find_ban" tabindex="3">{{ trans('Submit search') }}</button>
+                    <input type="submit" class="btn btn-primary" name="find_ban" value="{{ trans('Submit search') }}" tabindex="3" />
 
                     <p class="help-block form-text pull-right">{{ trans('Ban search subhead') }}</p>
 
@@ -105,8 +105,8 @@
                         </div>
                     </div>
                     
+                    <input type="submit" class="btn btn-primary" name="find_ban" tabindex="12" value="{{ trans('Submit search') }}"/>
                     {{ fireHook('view.admin.bans.admin_bans.form') }}
-                    <button type="submit" class="btn btn-primary" name="find_ban" tabindex="12">{{ trans('Submit search') }}</button>
                 </form>
             </div>
         </div>

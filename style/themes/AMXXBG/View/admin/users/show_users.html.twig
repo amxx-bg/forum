@@ -6,11 +6,6 @@
 
     <div class="linkst">
         <div class="inbox crumbsplus">
-            <ul class="crumbs">
-                <li><a href="{{ pathFor('adminIndex') }}">{{ trans('Admin') }} {{ trans('Index') }}</a></li>
-                <li><span>»&#160;</span><a href="{{ pathFor('adminUsers') }}">{{ trans('Users') }}</a></li>
-                <li><span>»&#160;</span><strong>{{ trans('Results head') }}</strong></li>
-            </ul>
             <div class="pagepost">
                 <p class="pagelink">{{ paging_links|raw }}</p>
             </div>
@@ -22,7 +17,7 @@
         <h2><span>{{ trans('Results head') }}</span></h2>
         <div class="box">
             <div class="inbox">
-                <table>
+                <table class="table">
                     <thead>
                     <tr>
                         <th class="tcl" scope="col">{{ trans('Results username head') }}</th>
@@ -90,11 +85,6 @@
             <div class="pagepost">
                 <p class="pagelink">{{ paging_links|raw }}</p>
             </div>
-            <ul class="crumbs">
-                <li><a href="{{ pathFor('adminIndex') }}">{{ trans('Admin') }} {{ trans('Index') }}</a></li>
-                <li><span>»&#160;</span><a href="{{ pathFor('adminUsers') }}">{{ trans('Users') }}</a></li>
-                <li><span>»&#160;</span><strong>{{ trans('Results head') }}</strong></li>
-            </ul>
             <div class="clearer"></div>
         </div>
     </div>
