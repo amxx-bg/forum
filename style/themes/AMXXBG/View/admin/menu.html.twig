@@ -1,74 +1,55 @@
 {{ fireHook('view.admin.menu.start') }}
+    <div id="adminconsole" class="row">
+        <div id="adminmenu" class="col-md-3">
+            <div class="box">
+                <div class="list-group">
+                    <li class="list-group-item list-group-item-warning">{{ trans('Moderator menu') }}</li>
+                    <a href="{{ pathFor('adminIndex') }}" class="list-group-item list-group-item-action {{ page == 'index' ? 'active' : '' }}">{{ trans('Index') }}</a>
+                    <a href="{{ pathFor('adminUsers') }}" class="list-group-item list-group-item-action {{ page == 'users' ? 'active' : '' }}">{{ trans('Users') }}</a>
+                {% if isAdmin() or can('mod.ban_users') %}
+                    <a href="{{ pathFor('adminBans') }}" class="list-group-item list-group-item-action {{ page == 'bans' ? 'active' : '' }}">{{ trans('Bans') }}</a>
+                {% endif %}
 
-<div id="adminconsole" class="block2col">
-    <div id="adminmenu" class="blockmenu">
-        <h2><span>{{ trans('Moderator menu') }}</span></h2>
-        <div class="box">
-            <div class="inbox">
-                <ul>
-                    <li{{ page == 'index' ? ' class="isactive"' : '' }}>
-                        <a href="{{ pathFor('adminIndex') }}">{{ trans('Index') }}</a>
-                    </li>
-                    <li{{ page == 'users' ? ' class="isactive"' : '' }}>
-                        <a href="{{ pathFor('adminUsers') }}">{{ trans('Users') }}</a>
-                    </li>
-            {% if isAdmin() or can('mod.ban_users') %}
-                    <li{{ page == 'bans' ? ' class="isactive"': '' }}>
-                        <a href="{{ pathFor('adminBans') }}">{{ trans('Bans') }}</a>
-                    </li>
-            {% endif %}
+                {% if isAdmin() or settings('o_report_method') == '0' or settings('o_report_method') == '2' %}
+                    <a href="{{ pathFor('adminReports') }}" class="list-group-item list-group-item-action {{ page == 'reports' ? 'active' : '' }}">{{ trans('Reports') }}</a>
+                {% endif %}
 
-            {% if isAdmin() or settings('o_report_method') == '0' or settings('o_report_method') == '2' %}
-                    <li{{ page == 'reports' ? ' class="isactive"' : '' }}>
-                        <a href="{{ pathFor('adminReports') }}">{{ trans('Reports') }}</a>
-                    </li>
-            {% endif %}
-
-                </ul>
-            </div>
+                </div>
         </div>
 
-    {% if isAdmin() %}
+            </br>
 
-        <h2 class="block2"><span>{{ trans('Admin menu') }}</span></h2>
-        <div class="box">
-            <div class="inbox">
-                <ul>
+        {% if isAdmin() %}
+            <div class="box">
+                <div class="list-group">
+                    <li class="list-group-item list-group-item-info">{{ trans('Admin menu') }}</li>
                     {% for perm, data in menu_items %}
                         {% if preg_match('/^board\..*$/', perm) %}
-                            <li{{ page == data.title|lower ? ' class="isactive"' : '' }}>
-                                <a href="{{ pathFor(data.url) }}">{{ trans(data.title) }}</a>
-                            </li>
+                                <a href="{{ pathFor(data.url) }}" class="list-group-item list-group-item-action {{ page == data.title|lower ? 'active' : '' }}">{{ trans(data.title) }}</a>
                         {% endif %}
                     {% endfor %}
-                </ul>
+                </div>
             </div>
-        </div>
 
-    {% endif %}
+        {% endif %}
 
-    {#// Did we find any plugins?#}
-    {% if plugins is not empty %}
+        {#// Did we find any plugins?#}
+        {% if plugins is not empty %}
 
-        <h2 class="block2"><span>{{ trans('Plugins menu') }}</span></h2>
-        <div class="box">
-            <div class="inbox">
-                <ul>
+            <h2 class="block2"><span>{{ trans('Plugins menu') }}</span></h2>
+            <div class="box">
+                <div class="list-group">
 
-                {% for plugin in plugins %}
-                {% set plugin_url = slug(plugin) %}
-                    <li{{ page == plugin_url ? ' class="isactive"' : '' }}>
-                        <a href="{{ pathFor('infoPlugin', {'name': plugin_url}) }}">{{ plugin }}</a>
-                    </li>
-                {% endfor %}
+                    {% for plugin in plugins %}
+                    {% set plugin_url = slug(plugin) %}
+                            <a href="{{ pathFor('infoPlugin', {'name': plugin_url}) }}" class="list-group-item list-group-item-action {{ page == data.title|lower ? 'active' : '' }}">{{ plugin }}</a>
+                    {% endfor %}
 
-
-                </ul>
+                </div>
             </div>
+
+        {% endif %}
+
         </div>
-
-    {% endif %}
-
-    </div>
 
 {{ fireHook('view.admin.menu.end') }}

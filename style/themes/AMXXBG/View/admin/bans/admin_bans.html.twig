@@ -6,96 +6,111 @@
 
     {{ fireHook('view.admin.bans.admin_bans.start') }}
 
-    <div class="blockform">
-        <h2><span>{{ trans('New ban head') }}</span></h2>
-        <div class="box">
-            <form id="bans" method="post" action="{{ pathFor('addBan') }}">
-                <input type="hidden" name="csrf_name" value="{{ csrf_name }}">
-                <input type="hidden" name="csrf_value" value="{{ csrf_value }}">
-                <div class="inform">
-                    <fieldset>
-                        <legend>{{ trans('Add ban subhead') }}</legend>
-                        <div class="infldset">
-                            <table class="aligntop">
-                                <tr>
-                                    <th scope="row">{{ trans('Username label') }}
-                                        <div><input type="submit" name="add_ban" value="{{ trans('Add') }}" tabindex="2" /></div></th>
-                                    <td>
-                                        <input type="text" name="new_ban_user" size="25" maxlength="25" tabindex="1" />
-                                        <span>{{ trans('Username advanced help') }}</span>
-                                    </td>
-                                </tr>
-                            </table>
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header"><strong>{{ trans('New ban head') }}</strong></div>
+            <div class="card-body">
+                <form id="bans" method="post" action="{{ pathFor('addBan') }}">
+                    <input type="hidden" name="csrf_name" value="{{ csrf_name }}">
+                    <input type="hidden" name="csrf_value" value="{{ csrf_value }}">
+            
+                    <p>{{ trans('Add ban subhead') }}</p>
+                    
+                    <div class="row form-group">
+                        <div class="col col-md-3"><label for="sort_by" class="form-control-label">{{ trans('Username label') }}</label></div>
+                        <div class="col-12 col-md-9">
+                            <input type="text" class="form-control" name="new_ban_user" size="25" maxlength="25" tabindex="1" />
+                            <small class="help-block form-text">{{ trans('Username advanced help') }}</small>
+                            <br/>
+                            <input type="submit" class="btn btn-primary" name="add_ban" value="{{ trans('Add') }}" tabindex="2" />
                         </div>
-                    </fieldset>
-                </div>
-            </form>
-        </div>
+                    </div>
+                </form>
+            </div>
 
-        <h2 class="block2"><span>{{ trans('Ban search head') }}</span></h2>
-        <div class="box">
-            <form id="find_bans" method="get" action="{{ pathFor('adminBans') }}">
-                <p class="submittop"><input type="submit" name="find_ban" value="{{ trans('Submit search') }}" tabindex="3" /></p>
-                <div class="inform">
-                    <fieldset>
-                        <legend>{{ trans('Ban search subhead') }}</legend>
-                        <div class="infldset">
-                            <p>{{ trans('Ban search info') }}</p>
-                            <table class="aligntop">
-                                <tr>
-                                    <th scope="row">{{ trans('Username label') }}</th>
-                                    <td><input type="text" name="username" size="30" maxlength="25" tabindex="4" /></td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">{{ trans('IP label') }}</th>
-                                    <td><input type="text" name="ip" size="30" maxlength="255" tabindex="5" /></td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">{{ trans('E-mail label') }}</th>
-                                    <td><input type="text" name="email" size="30" maxlength="80" tabindex="6" /></td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">{{ trans('Message label') }}</th>
-                                    <td><input type="text" name="message" size="30" maxlength="255" tabindex="7" /></td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">{{ trans('Expire after label') }}</th>
-                                    <td><input type="text" name="expire_after" size="10" maxlength="10" tabindex="8" />
-                                    <span>{{ trans('Date help') }}</span></td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">{{ trans('Expire before label') }}</th>
-                                    <td><input type="text" name="expire_before" size="10" maxlength="10" tabindex="9" />
-                                    <span>{{ trans('Date help') }}</span></td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">{{ trans('Order by label') }}</th>
-                                    <td>
-                                        <select name="order_by" tabindex="10">
-                                            <option value="username" selected="selected">{{ trans('Order by username') }}</option>
-                                            <option value="ip">{{ trans('Order by ip') }}</option>
-                                            <option value="email">{{ trans('Order by e-mail') }}</option>
-                                            <option value="expire">{{ trans('Order by expire') }}</option>
-                                        </select>
-                                        &#160;&#160;&#160;
-                                        <select name="direction" tabindex="11">
-                                            <option value="ASC" selected="selected">{{ trans('Ascending') }}</option>
-                                            <option value="DESC">{{ trans('Descending') }}</option>
-                                        </select>
-                                    </td>
-                                </tr>
-                                {{ fireHook('view.admin.bans.admin_bans.form') }}
-                            </table>
+            <hr>
+
+            <div class="card-body">
+                <p>{{ trans('Ban search head') }}</p>
+                <form id="find_bans" method="get" action="{{ pathFor('adminBans') }}">
+                
+                    <button type="submit" class="btn btn-primary" name="find_ban" tabindex="3">{{ trans('Submit search') }}</button>
+
+                    <p class="help-block form-text pull-right">{{ trans('Ban search subhead') }}</p>
+
+                    <br/>
+                    <br/>
+
+                    <div class="row form-group">
+                        <div class="col col-md-3"><label for="sort_by" class="form-control-label">{{ trans('Username label') }}</label></div>
+                        <div class="col-12 col-md-9">
+                            <input type="text" class="form-control" name="username" size="25" maxlength="25" tabindex="4" />
                         </div>
-                    </fieldset>
-                </div>
-                <p class="submitend">
-                    <input type="submit" name="find_ban" value="{{ trans('Submit search') }}" tabindex="12" />
-                </p>
-            </form>
+                    </div>
+
+                    <div class="row form-group">
+                        <div class="col col-md-3"><label for="sort_by" class="form-control-label">{{ trans('IP label') }}</label></div>
+                        <div class="col-12 col-md-9">
+                            <input type="text" class="form-control" name="ip" size="25" maxlength="25" tabindex="5" />
+                            
+                        </div>
+                    </div>
+
+                    <div class="row form-group">
+                        <div class="col col-md-3"><label for="sort_by" class="form-control-label">{{ trans('E-mail label') }}</label></div>
+                        <div class="col-12 col-md-9">
+                            <input type="text" class="form-control" name="email" size="30" maxlength="25" tabindex="6" />                      
+                        </div>
+                    </div>
+
+                    <div class="row form-group">
+                        <div class="col col-md-3"><label for="sort_by" class="form-control-label">{{ trans('Message label') }}</label></div>
+                        <div class="col-12 col-md-9">
+                            <textarea class="form-control" name="message" size="64" maxlength="25" tabindex="7" ></textarea>
+                        </div>
+                    </div>
+
+                    <div class="row form-group">
+                        <div class="col col-md-3"><label for="sort_by" class="form-control-label">{{ trans('Expire after label') }}</label></div>
+                        <div class="col-12 col-md-9">
+                            <input type="text" class="form-control" name="expire_after" size="10" maxlength="10" tabindex="8" />    
+                            <small class="help-block form-text">{{ trans('Date help') }}</small>                      
+                        </div>
+                    </div>
+
+                    <div class="row form-group">
+                        <div class="col col-md-3"><label for="sort_by" class="form-control-label">{{ trans('Expire before label') }}</label></div>
+                        <div class="col-12 col-md-9">
+                            <input type="text" class="form-control" name="expire_before" size="10" maxlength="10" tabindex="8" />      
+                            <small class="help-block form-text">{{ trans('Date help') }}</small>                
+                        </div>
+                    </div>
+
+                    <div class="row form-group">
+                        <div class="col col-md-3"><label for="sort_by" class="form-control-label">{{ trans('Order by label') }}</label></div>
+                        <div class="col-12 col-md-9">
+                            <select name="order_by" class="form-control" tabindex="10">
+                                <option value="username" selected="selected">{{ trans('Order by username') }}</option>
+                                <option value="ip">{{ trans('Order by ip') }}</option>
+                                <option value="email">{{ trans('Order by e-mail') }}</option>
+                                <option value="expire">{{ trans('Order by expire') }}</option>
+                            </select>
+
+                            &#160;&#160;&#160;
+
+                            <select name="direction" class="form-control" tabindex="11">
+                                <option value="ASC" selected="selected">{{ trans('Ascending') }}</option>
+                                <option value="DESC">{{ trans('Descending') }}</option>
+                            </select>        
+                        </div>
+                    </div>
+                    
+                    {{ fireHook('view.admin.bans.admin_bans.form') }}
+                    <button type="submit" class="btn btn-primary" name="find_ban" tabindex="12">{{ trans('Submit search') }}</button>
+                </form>
+            </div>
         </div>
     </div>
-    <div class="clearer"></div>
 </div>
 
     {{ fireHook('view.admin.bans.admin_bans.end') }}
