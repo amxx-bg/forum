@@ -49,37 +49,29 @@
                 <input type="hidden" name="csrf_name" value="{{ csrf_name }}">
                 <input type="hidden" name="csrf_value" value="{{ csrf_value }}">
                 <div class="inform">
-                    <fieldset>
-                        <legend>{{ trans('Delete categories subhead') }}</legend>
                         <div class="infldset">
-                            <table class="aligntop">
-                                <tr>
-                                    <th scope="row">{{ trans('Delete category label') }}
-                                        <div><input type="submit" value="{{ trans('Delete') }}" tabindex="4" /></div>
-                                    </th>
-                                    <td>
-                                        <select name="cat_to_delete" tabindex="3">
-                                {% for cur_cat in cat_list %}
-                                    <option value="{{ cur_cat.id }}">{{ cur_cat.cat_name }}</option>
-                                {% endfor %}
-                                        </select>
-                                        <span style="color: red;">
-                                            <input type="checkbox" name="disclaimer" value="1"> {{ trans('Delete category disclaimer') }}
-                                        </span>
-                                    </td>
-                                </tr>
-                            </table>
+                            {{ trans('Delete category label') }}
+                                
+                            <select name="cat_to_delete" class="form-control" tabindex="3">
+                            {% for cur_cat in cat_list %}
+                                <option value="{{ cur_cat.id }}">{{ cur_cat.cat_name }}</option>
+                            {% endfor %}
+                            </select>
+                                
+                            <br>
+                            <input type="checkbox" class="switch-control" name="disclaimer" value="1"> {{ trans('Delete category disclaimer') }}
+                                
+                            <input type="submit" class="btn btn-primary pull-right" value="{{ trans('Delete') }}" tabindex="4" />
                         </div>
-                    </fieldset>
                 </div>
             </form>
         </div>
     {% endif %}
 
-    {% if cat_list is not empty %}
+    <hr>
 
-        <h2 class="block2"><span>{{ trans('Edit categories head') }}</span></h2>
-        <div class="box">
+    {% if cat_list is not empty %}
+        <div class="card-body">
             <form method="post" action="{{ pathFor('editCategory') }}">
                 <input type="hidden" name="csrf_name" value="{{ csrf_name }}">
                 <input type="hidden" name="csrf_value" value="{{ csrf_value }}">
@@ -99,14 +91,15 @@
 
                     {% for cur_cat in cat_list %}
                         <tr>
-                            <td class="tcl"><input type="text" name="cat[{{ cur_cat.id }}][name]" value="{{ cur_cat.cat_name }}" size="35" maxlength="80" /></td>
-                            <td><input type="text" name="cat[{{ cur_cat.id }}][order]" value="{{ cur_cat.disp_position }}" size="3" maxlength="3" /></td>
+                            <td class="tcl"><input type="text" class="form-control" name="cat[{{ cur_cat.id }}][name]" value="{{ cur_cat.cat_name }}" size="35" maxlength="80" /></td>
+                            <td><input type="text" class="form-control" name="cat[{{ cur_cat.id }}][order]" value="{{ cur_cat.disp_position }}" size="3" maxlength="3" /></td>
                         </tr>
                     {% endfor %}
 
                             </tbody>
                             </table>
-                            <div class="fsetsubmit"><input type="submit" value="{{ trans('Update') }}" /></div>
+                            <br>
+                            <div class="fsetsubmit"><input type="submit" class="btn btn-primary" value="{{ trans('Update') }}" /></div>
                         </div>
                     </fieldset>
                 </div>
@@ -115,7 +108,7 @@
     {% endif %}
 
     </div>
-    <div class="clearer"></div>
+</div>
 </div>
 
     {{ fireHook('view.admin.categories.end') }}

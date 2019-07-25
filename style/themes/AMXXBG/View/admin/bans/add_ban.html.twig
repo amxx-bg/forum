@@ -6,9 +6,10 @@
 
     {{ fireHook('view.admin.bans.add.start') }}
 
-    <div class="blockform">
-        <h2><span>{{ trans('Ban advanced head') }}</span></h2>
-        <div class="box">
+<div class="col-md-8">
+    <div class="card">
+        <div class="card-header"><strong>{{ trans('Ban advanced head') }}</strong></div>
+        <div class="card-body">
             <form id="bans2" method="post" action="">
                 <div class="inform">
                     <input type="hidden" name="csrf_name" value="{{ csrf_name }}">
@@ -23,72 +24,63 @@
                         <input type="hidden" name="ban_user_id" value="{{ ban.user_id }}"/>
                     {% endif %}
 
-                    <fieldset>
-                        <legend>{{ trans('Ban advanced subhead') }}</legend>
-                        <div class="infldset">
-                            <table class="aligntop">
+                        <p class="form-text">{{ trans('Ban advanced subhead') }}</p>
+                            <table class="table">
                                 <tr>
                                     <th scope="row">{{ trans('Username label') }}</th>
                                     <td>
-                                        <input type="text" name="ban_user" size="25" maxlength="25"
+                                        <input type="text" class="form-control" name="ban_user" size="25" maxlength="25"
                                                value="{{ ban.ban_user is defined ? ban.ban_user : '' }}" tabindex="1"/>
-                                        <span>{{ trans('Username help') }}</span>
+                                        <small class="help-block form-text">{{ trans('Username help') }}</small>
                                     </td>
                                 </tr>
                                 <tr>
                                     <th scope="row">{{ trans('IP label') }}</th>
                                     <td>
-                                        <input type="text" name="ban_ip" size="45" maxlength="255"
+                                        <input type="text" class="form-control" name="ban_ip" size="45" maxlength="255"
                                                value="{{ ban.ip is defined ? ban.ip : '' }}" tabindex="2"/>
-                                        <span>{{ trans('IP help') }} {{ ban.ban_user != '' and ban.user_id is defined ? trans(['IP help link', '<a href="' ~pathFor('usersIpStats', {'id': ban.user_id}) ~'">' ~trans('here') ~'</a>']) : '' }}</span>
+                                        <small class="help-block form-text">{{ trans('IP help') }} {{ ban.ban_user != '' and ban.user_id is defined ? trans(['IP help link', '<a href="' ~pathFor('usersIpStats', {'id': ban.user_id}) ~'">' ~trans('here') ~'</a>']) : '' }}</small>
                                     </td>
                                 </tr>
                                 <tr>
                                     <th scope="row">{{ trans('E-mail label') }}</th>
                                     <td>
-                                        <input type="text" name="ban_email" size="40" maxlength="80"
+                                        <input type="text" class="form-control" name="ban_email" size="40" maxlength="80"
                                                value="{{ ban.email is defined ? ban.email : '' }}" tabindex="3"/>
-                                        <span>{{ trans('E-mail help') }}</span>
+                                        <small class="help-block form-text">{{ trans('E-mail help') }}</small>
                                     </td>
                                 </tr>
                             </table>
-                            <p class="topspace"><strong class="warntext">{{ trans('Ban IP range info') }}</strong></p>
-                        </div>
-                    </fieldset>
-                </div>
-                <div class="inform">
-                    <fieldset>
-                        <legend>{{ trans('Message expiry subhead') }}</legend>
-                        <div class="infldset">
-                            <table class="aligntop">
-                                <tr>
-                                    <th scope="row">{{ trans('Ban message label') }}</th>
-                                    <td>
-                                        <input type="text" name="ban_message" size="50" maxlength="255"
-                                               value="{{ ban.message is defined ? ban.message : '' }}" tabindex="4"/>
-                                        <span>{{ trans('Ban message help') }}</span>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">{{ trans('Expire date label') }}</th>
-                                    <td>
-                                        <input type="text" name="ban_expire" size="17" maxlength="10"
-                                               value="{{ ban.expire is defined ? ban.expire : '' }}" tabindex="5"/>
-                                        <span>{{ trans('Expire date help') }}</span>
-                                    </td>
-                                </tr>
-                            </table>
-                        </div>
-                    </fieldset>
-                </div>
+                            <small class="help-block form-text">{{ trans('Ban IP range info') }}</small>
+                    </div>
+                <hr>
+                <p class="form-text">{{ trans('Message expiry subhead') }}</p>
+                    <table class="table">
+                        <tr>
+                            <th>{{ trans('Ban message label') }}</th>
+                            <td>
+                                <input type="text" class="form-control" name="ban_message" size="50" maxlength="255"
+                                        value="{{ ban.message is defined ? ban.message : '' }}" tabindex="4"/>
+                                <small class="help-block form-text">{{ trans('Ban message help') }}</small>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">{{ trans('Expire date label') }}</th>
+                            <td>
+                                <input type="text" class="form-control" name="ban_expire" size="17" maxlength="10"
+                                        value="{{ ban.expire is defined ? ban.expire : '' }}" tabindex="5"/>
+                                <small class="help-block form-text">{{ trans('Expire date help') }}</small>
+                            </td>
+                        </tr>
+                    </table>
 
                 {{ fireHook('view.admin.bans.add.form') }}
-                <p class="submitend"><input type="submit" name="add_edit_ban" value="{{ trans('Save') }}" tabindex="6"/>
+                <p class="submitend"><input type="submit" class="btn btn-primary" name="add_edit_ban" value="{{ trans('Save') }}" tabindex="6"/>
                 </p>
             </form>
         </div>
     </div>
-    <div class="clearer"></div>
+    </div>
     </div>
 
     {{ fireHook('view.admin.bans.add.end') }}

@@ -6,9 +6,10 @@
 
     {{ fireHook('view.admin.reports.start') }}
 
-    <div class="blockform">
-        <h2><span>{{ trans('New reports head') }}</span></h2>
-        <div class="box">
+<div class="col-md-8">
+    <div class="card">
+        <div class="card-header"><span>{{ trans('New reports head') }}</span></div>
+        <div class="card-body">
             <form method="post" action="{{ pathFor('adminReports') }}">
                 <input type="hidden" name="csrf_name" value="{{ csrf_name }}">
                 <input type="hidden" name="csrf_value" value="{{ csrf_value }}">
@@ -20,7 +21,7 @@
                     <fieldset>
                         <legend>{{ trans(['Report subhead', formatTime(report.created)]) }}</legend>
                         <div class="infldset">
-                            <table class="aligntop">
+                            <table class="table">
                                 <tr>
                                     <th scope="row">{{ trans(['Reported by', (report.reporter != '' ? '<a href="' ~pathFor('userProfile', {'id': report.reported_by}) ~'">' ~report.reporter ~'</a>' : trans('Deleted user')) ]) }}</th>
                                     <td class="location">
@@ -34,7 +35,8 @@
                                 </tr>
                                 <tr>
                                     <th scope="row">{{ trans('Reason') }}
-                                        <div><input type="submit" name="zap_id[{{ report.id }}]" value="{{ trans('Zap') }}" /></div>
+                                        <br><br>
+                                        <div><input type="submit" class="btn btn-primary" name="zap_id[{{ report.id }}]" value="{{ trans('Zap') }}" /></div>
                                     </th>
                                     <td>{{ report.message|nl2br }}</td>
                                 </tr>
@@ -62,9 +64,9 @@
         </div>
     </div>
 
-    <div class="blockform block2">
-        <h2><span>{{ trans('Last 10 head') }}</span></h2>
-        <div class="box">
+    <div class="card">
+        <div class="card-header"><span>{{ trans('Last 10 head') }}</span></div>
+        <div class="card-body">
             <div class="fakeform">
 
 
@@ -77,7 +79,7 @@
                             {{ trans(['Zapped subhead', formatTime(report.zapped), (report.zapped_by != '' ? '<a href="' ~pathFor('userProfile', {'id': report.zapped_by_id}) ~'">' ~report.zapped_by ~'</a>' : trans('NA') )]) }}
                         </legend>
                         <div class="infldset">
-                            <table class="aligntop">
+                            <table class="table">
                                 <tr>
                                     <th scope="row">
                                         {{ trans(['Reported by', (report.reporter != '' ? '<a href="' ~pathFor('userProfile', {'id': report.reported_by}) ~'">' ~report.reporter ~'</a>' : trans('Deleted user') ) ]) }}
@@ -120,5 +122,6 @@
     <div class="clearer"></div>
 </div>
 
+</div>
     {{ fireHook('view.admin.reports.end') }}
 {% endblock content %}
